@@ -37,6 +37,15 @@ class OpenedTasksPage extends React.Component {
     };
   }
 
+  handleClose(id) {
+    return () => {
+      request.post(`https://secure.runrun.it/api/v1.0/tasks/${id}/close`)
+        .then(response => {
+          this.handleGetList();
+        });
+    };
+  }
+
   handleGetList() {
     request.get('https://secure.runrun.it/api/v1.0/tasks', {
       params: {
@@ -61,7 +70,7 @@ class OpenedTasksPage extends React.Component {
             (<button type="button" className="btn btn-sm btn-primary" onClick={this.handlePlay(task.id)}>
             <span className="oi" data-glyph="media-play"></span> WORK
             </button>)
-          } <button type="button" className="btn btn-sm btn-light">COMPLETE</button>
+          } <button type="button" className="btn btn-sm btn-light" onClick={this.handleClose(task.id)}>COMPLETE</button>
         </div>
       </li>
     ));
