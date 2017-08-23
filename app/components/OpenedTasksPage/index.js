@@ -30,10 +30,10 @@ class OpenedTasksPage extends React.Component {
         <div>
           {(task.is_working_on) ?
             (<button type="button" className="btn btn-sm btn-primary">
-              <i className="fa fa-clock-o" aria-hidden="true"></i> PAUSE
+            <span className="oi" data-glyph="media-pause"></span> PAUSE
             </button>) :
             (<button type="button" className="btn btn-sm btn-primary">
-              <i className="fa fa-pause-circle-o" aria-hidden="true"></i> WORK
+            <span className="oi" data-glyph="media-play"></span> WORK
             </button>)
           } <button type="button" className="btn btn-sm btn-light">COMPLETE</button>
         </div>
