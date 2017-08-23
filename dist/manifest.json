@@ -13,7 +13,9 @@
     "tabs",
     "notifications",
     "alarms",
-    "storage"
+    "storage",
+    "https://secure.runrun.it/",
+    "https://use.fontawesome.com/"
   ],
   "background" : {
     "scripts": [

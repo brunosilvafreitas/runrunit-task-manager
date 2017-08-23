@@ -55,30 +55,34 @@ class OptionsPage extends React.Component {
     ) : "";
 
     return (
-      <div className="row justify-content-md-center">
-        <div className="col col-md-6"><br /><br />
-          <div className="card">
-            <div className="card-body">
-              {msg}
-              <div className="text-center">
-                <img src="/images/icon_128.png" />
+      <div className="container">
+        <div className="content">
+          <div className="row justify-content-md-center">
+            <div className="col col-md-6"><br /><br />
+              <div className="card">
+                <div className="card-body">
+                  {msg}
+                  <div className="text-center">
+                    <img src="/images/icon_128.png" />
+                  </div>
+                  <h1 className="text-center">Runrun.it Settings</h1>
+                  <form onSubmit={this.handleSubmit}>
+                    <div className="form-group">
+                      <label htmlFor="appkey">App Key</label>
+                      <input type="text" className="form-control" name="appkey" value={this.state.appkey} required onChange={this.handleInputChange} />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="usertoken">User Token</label>
+                      <input type="text" className="form-control" name="usertoken" value={this.state.usertoken} required onChange={this.handleInputChange} />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="userid">User Id</label>
+                      <input type="text" className="form-control" name="userid" value={this.state.userid} required onChange={this.handleInputChange} />
+                    </div>
+                    <button type="submit" className="btn btn-primary">Save</button>
+                  </form>
+                </div>
               </div>
-              <h1 className="text-center">Runrun.it Settings</h1>
-              <form onSubmit={this.handleSubmit}>
-                <div className="form-group">
-                  <label htmlFor="appkey">App Key</label>
-                  <input type="text" className="form-control" name="appkey" value={this.state.appkey} required onChange={this.handleInputChange} />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="usertoken">User Token</label>
-                  <input type="text" className="form-control" name="usertoken" value={this.state.usertoken} required onChange={this.handleInputChange} />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="userid">User Id</label>
-                  <input type="text" className="form-control" name="userid" value={this.state.userid} required onChange={this.handleInputChange} />
-                </div>
-                <button type="submit" className="btn btn-primary">Save</button>
-              </form>
             </div>
           </div>
         </div>
