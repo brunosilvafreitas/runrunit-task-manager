@@ -1,2 +1,2 @@
 # runrunit-task-manager
-A Chrome extension to manager your Runrun.it tasks
+A Chrome extension to manage your Runrun.it tasks
