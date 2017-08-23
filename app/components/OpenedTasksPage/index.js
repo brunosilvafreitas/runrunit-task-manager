@@ -1,6 +1,7 @@
 import React from 'react';
 import request from '../AuthInterceptor';
 import style from './style.css';
+import moment from 'moment';
 
 class OpenedTasksPage extends React.Component {
   constructor(props) {
@@ -77,7 +78,7 @@ class OpenedTasksPage extends React.Component {
 
     return (
       <div>
-        <h1>Tasks</h1>
+        <h1 className="text-center">Tasks</h1>
         <ul className={`list-group ${style.OpenedTasksPage}`}>
           {tasks}
         </ul>
