@@ -4,8 +4,6 @@ class OptionsPage extends React.Component {
   constructor(props) {
     super(props);
 
-    console.log(localStorage.getItem("appkey"));
-
     this.state = {
       appkey: localStorage.getItem("appkey") || "",
       usertoken: localStorage.getItem("usertoken") || "",

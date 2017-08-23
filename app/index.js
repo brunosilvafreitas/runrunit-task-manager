@@ -2,11 +2,11 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Router, hashHistory } from 'react-router';
 
+const appContainer = document.getElementById('runrunTMApp');
+const path = appContainer.getAttribute('path') || '';
+
 import routes from './routes';
 
-const appContainer = document.getElementById('runrunTMApp');
-sessionStorage.initialPath = appContainer.getAttribute('path') || '';
-
 render((
-  <Router history={hashHistory} routes={routes} />
+  <Router history={hashHistory} routes={routes(path)} />
 ), appContainer);
