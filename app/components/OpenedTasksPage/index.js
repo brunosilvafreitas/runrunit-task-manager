@@ -84,7 +84,7 @@ class OpenedTasksPage extends React.Component {
     return (
       <div>
         <div>
-          <a href="chrome-extension://jiicagknbmclheeiimekecibhcknibge/options.html#/options" target="_blank"><img src="/open-iconic/svg/cog.svg" className={style.Settings} /></a>
+          <a href="options.html" target="_blank"><img src="/open-iconic/svg/cog.svg" className={style.Settings} /></a>
           <h1 className="text-center">Tasks</h1> 
         </div>        
           <ul className={`list-group ${style.OpenedTasksPage}`}>
