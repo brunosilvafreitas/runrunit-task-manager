@@ -8,6 +8,7 @@ class OptionsPage extends React.Component {
       appkey: localStorage.getItem("appkey") || "",
       usertoken: localStorage.getItem("usertoken") || "",
       userid: localStorage.getItem("userid") || "",
+      rememberTimeInMinutes: localStorage.getItem("rememberTimeInMinutes") || 5,
       msg: ""
     };
 
@@ -23,9 +24,19 @@ class OptionsPage extends React.Component {
   }
 
   handleInputChange(e) {
-    const {name, value} = e.target;
+    const {name, value, type} = e.target;
+
+    const getValueByType = () => {
+      switch(type) {
+        case 'number':
+          return Number(value);
+        default:
+          return value;
+      }
+    };
+
     this.setState({
-      [name]: value
+      [name]: getValueByType()
     });
   }
 
@@ -35,6 +46,7 @@ class OptionsPage extends React.Component {
     localStorage.setItem("appkey", this.state.appkey);
     localStorage.setItem("usertoken", this.state.usertoken);
     localStorage.setItem("userid", this.state.userid);
+    localStorage.setItem("rememberTimeInMinutes", this.state.rememberTimeInMinutes);
 
     this.setState({
       msg: {
@@ -78,6 +90,10 @@ class OptionsPage extends React.Component {
                     <div className="form-group">
                       <label htmlFor="userid">User Id</label>
                       <input type="text" className="form-control" name="userid" value={this.state.userid} required onChange={this.handleInputChange} />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="rememberTimeInMinutes">Remember every * minutes</label>
+                      <input type="number" className="form-control" name="rememberTimeInMinutes" value={this.state.rememberTimeInMinutes} required onChange={this.handleInputChange} />
                     </div>
                     <button type="submit" className="btn btn-primary">Save</button>
                   </form>

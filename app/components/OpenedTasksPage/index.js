@@ -65,7 +65,7 @@ class OpenedTasksPage extends React.Component {
   }
 
   render() {
-    const tasks = this.state.tasks.map((task, index) => (
+    const tasks = (localStorage.getItem("appkey")) ? this.state.tasks.map((task, index) => (
       <li key={index} className="list-group-item">
         <a href={`https://secure.runrun.it/tasks/${task.id}`} target="_blank">{task.id} - {task.title}</a>
         <div>
@@ -79,7 +79,12 @@ class OpenedTasksPage extends React.Component {
           } <button type="button" className="btn btn-sm btn-light" onClick={this.handleClose(task.id)}>COMPLETE</button>
         </div>
       </li>
-    ));
+    )) : (
+      <li className="text-center">
+        The user has not been configured.<br />
+        click settings and add your user data!
+      </li>
+    );
 
     return (
       <div>
@@ -87,7 +92,7 @@ class OpenedTasksPage extends React.Component {
           <a href="options.html" target="_blank"><img src="/open-iconic/svg/cog.svg" className={style.Settings} /></a>
           <h1 className="text-center">Tasks</h1> 
         </div>        
-          <ul className={`list-group ${style.OpenedTasksPage}`}>
+        <ul className={`list-group ${style.OpenedTasksPage}`}>
           {tasks}
         </ul>
       </div>
