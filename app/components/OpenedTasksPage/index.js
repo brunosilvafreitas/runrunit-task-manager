@@ -72,7 +72,10 @@ class OpenedTasksPage extends React.Component {
       <li key={index} className="list-group-item">
         <a href={`https://secure.runrun.it/tasks/${task.id}`} target="_blank">{task.id} - {task.title}</a>
         <div>
-          {(task.is_working_on) ?
+          <button type="button" className="btn btn-info btn-sm nohover">
+            <span data-glyph="timer" className="oi"></span> {timer(task.time_worked)}
+          </button> {
+            (task.is_working_on) ?
             (<button type="button" className="btn btn-sm btn-primary" onClick={this.handlePause(task.id)}>
             <span className="oi" data-glyph="media-pause"></span> PAUSE
             </button>) :
@@ -80,9 +83,6 @@ class OpenedTasksPage extends React.Component {
             <span className="oi" data-glyph="media-play"></span> WORK
             </button>)
           } <button type="button" className="btn btn-sm btn-light" onClick={this.handleClose(task.id)}>COMPLETE</button>
-          <button type="button" className="btn btn-info btn-sm nohover">
-          <span data-glyph="timer" className="oi"></span> {timer(task.time_worked)}
-          </button>
         </div>
       </li>
     )) : (

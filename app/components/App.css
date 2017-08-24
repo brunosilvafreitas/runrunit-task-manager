@@ -4,4 +4,5 @@
 
 :global(.btn.nohover) {
   cursor: default;
+  pointer-events: none;
 }
