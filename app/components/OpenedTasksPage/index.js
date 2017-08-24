@@ -6,14 +6,21 @@ import moment from 'moment';
 class OpenedTasksPage extends React.Component {
   constructor(props) {
     super(props);
-
+    parent = this;
+    
     this.state = {
       tasks: []
     };
-
+    
+    this.handleSetList = this.handleSetList.bind(this);
     this.handleGetList = this.handleGetList.bind(this);
     this.handlePlay = this.handlePlay.bind(this);
     this.handlePause = this.handlePause.bind(this);
+
+    chrome.runtime.onMessage.addListener((msg) => {
+      if(msg.subject === "taskUpdated")
+        parent.handleSetList(msg.body);
+    });
   }
 
   componentDidMount() {
@@ -47,22 +54,20 @@ class OpenedTasksPage extends React.Component {
     };
   }
 
+  handleSetList(tasks) {
+    this.setState({tasks});
+  }
+
   handleGetList() {
-    request.get('https://secure.runrun.it/api/v1.0/tasks', {
-      params: {
-        user_id: localStorage.getItem("userid"),
-        is_closed: false
-      }
-    })
-      .then(response => {
-        this.setState({tasks: response.data});
-      });
+    chrome.runtime.sendMessage({
+      subject: "taskUpdateRequest"
+    });
   }
 
   render() {
     const tasks = this.state.tasks.map((task, index) => (
       <li key={index} className="list-group-item">
-        {task.id} - {task.title}
+        <a href={`https://secure.runrun.it/tasks/${task.id}`} target="_blank">{task.id} - {task.title}</a>
         <div>
           {(task.is_working_on) ?
             (<button type="button" className="btn btn-sm btn-primary" onClick={this.handlePause(task.id)}>

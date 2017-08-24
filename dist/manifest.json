@@ -18,9 +18,8 @@
     "https://use.fontawesome.com/"
   ],
   "background" : {
-    "scripts": [
-    "background.js"
-    ]
+    "scripts": [ "axios.min.js","eventPage.js" ],
+    "persistent": false
   },
   "icons": {
     "16" : "images/icon_16.png",
