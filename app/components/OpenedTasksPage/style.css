@@ -1,3 +1,10 @@
 .OpenedTasksPage {
   width: 450px;
 }
+
+img.Settings {
+  width: 20px;
+  float: right;
+  margin-top: 3px;
+  margin-right: 5px;
+}
