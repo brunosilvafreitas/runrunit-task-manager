@@ -8,3 +8,10 @@ img.Settings {
   margin-top: 3px;
   margin-right: 5px;
 }
+
+img.RunrunIcon {
+  width: 20px;
+  float: left;
+  margin-top: 3px;
+  margin-left: 5px;
+}

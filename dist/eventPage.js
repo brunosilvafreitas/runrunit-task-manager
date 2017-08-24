@@ -1,7 +1,8 @@
 class RunrunTasks {
   constructor() {
     this._tasks = [];
-    this.is_working_on = false;
+    this._is_working_on = false;
+    this._reminder = moment();
     this._channel;
     parent = this;
 
@@ -48,18 +49,20 @@ class RunrunTasks {
         return task.is_working_on;
       });
 
-      if(this.is_working_on !== false && workingTask === undefined) {
+      if(this._is_working_on !== false && workingTask === undefined) {
+        this._reminder = moment();
         chrome.notifications.create(
             'runrunit_task_notification', {
             "type": 'basic', 
             "iconUrl": 'images/icon_128.png', 
             "title": "Pause!!!", 
-            "message": `Task "${this.is_working_on.title}" has been paused.`
+            "message": `Task "${this._is_working_on.title}" has been paused.`
             },
             () => {}
         );
       }
-      else if(workingTask !== undefined && (this.is_working_on === false || this.is_working_on.id !== workingTask.id)) {
+      else if(workingTask !== undefined && (this._is_working_on === false || this._is_working_on.id !== workingTask.id)) {
+        this._reminder = moment();
         chrome.notifications.create(
             'runrunit_task_notification', {
             "type": 'basic', 
@@ -72,12 +75,39 @@ class RunrunTasks {
       }
 
       if(workingTask) {
-        this.is_working_on = workingTask;
+        this._is_working_on = workingTask;
         chrome.browserAction.setIcon({path:"images/icon_128_active.png"});
       }
       else {
-        this.is_working_on = false;
+        this._is_working_on = false;
         chrome.browserAction.setIcon({path:"images/icon_128.png"});
+      }
+
+      const hasReminder = localStorage.getItem("rememberTimeInMinutes") || 0;
+      if(hasReminder && this._reminder.isSameOrBefore(moment().subtract(hasReminder, 'm'))) {
+        if(this._is_working_on) {
+          this._reminder = moment();
+          chrome.notifications.create(
+            'runrunit_task_notification', {
+              "type": 'basic', 
+              "iconUrl": 'images/icon_128_reminder.png', 
+              "title": "Reminder!!!", 
+              "message": `You are still working on task "${this._is_working_on.title}".`
+            },
+            () => {}
+          );
+        }
+        else {
+          chrome.notifications.create(
+            'runrunit_task_notification', {
+              "type": 'basic', 
+              "iconUrl": 'images/icon_128_reminder.png', 
+              "title": "Reminder!!!", 
+              "message": `There are no tasks currently in progress.`
+            },
+            () => {}
+          );
+        }
       }
 
       chrome.runtime.sendMessage({

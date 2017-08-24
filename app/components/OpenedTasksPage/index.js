@@ -95,6 +95,7 @@ class OpenedTasksPage extends React.Component {
     return (
       <div>
         <div>
+          <a href="https://secure.runrun.it/en-US/tasks" target="_blank"><img src="images/runrun.png" className={style.RunrunIcon} /></a>
           <a href="options.html" target="_blank"><img src="/open-iconic/svg/cog.svg" className={style.Settings} /></a>
           <h1 className="text-center">Tasks</h1> 
         </div>        

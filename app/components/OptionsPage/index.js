@@ -8,7 +8,7 @@ class OptionsPage extends React.Component {
       appkey: localStorage.getItem("appkey") || "",
       usertoken: localStorage.getItem("usertoken") || "",
       userid: localStorage.getItem("userid") || "",
-      rememberTimeInMinutes: localStorage.getItem("rememberTimeInMinutes") || 5,
+      rememberTimeInMinutes: localStorage.getItem("rememberTimeInMinutes") || 30,
       msg: ""
     };
 
@@ -92,7 +92,7 @@ class OptionsPage extends React.Component {
                       <input type="text" className="form-control" name="userid" value={this.state.userid} required onChange={this.handleInputChange} />
                     </div>
                     <div className="form-group">
-                      <label htmlFor="rememberTimeInMinutes">Remember every * minutes</label>
+                      <label htmlFor="rememberTimeInMinutes">Remember me every * minutes</label>
                       <input type="number" className="form-control" name="rememberTimeInMinutes" value={this.state.rememberTimeInMinutes} required onChange={this.handleInputChange} />
                     </div>
                     <button type="submit" className="btn btn-primary">Save</button>
