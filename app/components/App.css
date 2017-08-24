@@ -1,3 +1,7 @@
 :global(.btn) {
   cursor: pointer;
 }
+
+:global(.btn.nohover) {
+  cursor: default;
+}
