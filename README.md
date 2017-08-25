@@ -3,7 +3,7 @@
 
 To learn more about Runrun.it go to [http://runrun.it/](http://runrun.it/)
 
-*Version 1.1.2:*
+*Version 1.1.3:*
 
 * Start, pause and complete tasks
 * Set up a reminder
