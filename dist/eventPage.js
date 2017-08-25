@@ -10,7 +10,7 @@ JSON.isAJSONString = (object) => {
 class RunrunTasks {
   constructor() {
     this._tasks = [];
-    this._is_working_on = (JSON.isAJSONString(localStorage.getItem("is_working_on"))) ? JSON.parse(localStorage.getItem("is_working_on")) : false;
+    this._is_working_on = (localStorage.getItem("is_working_on") && JSON.isAJSONString(localStorage.getItem("is_working_on"))) ? JSON.parse(localStorage.getItem("is_working_on")) : false;
     this._reminder = (localStorage.getItem("reminder")) ? moment(localStorage.getItem("reminder")) : moment();
     parent = this;
 
@@ -56,7 +56,6 @@ class RunrunTasks {
       const workingTask = this._tasks.find((task) => {
         return task.is_working_on;
       });
-
       if(this._is_working_on !== false && workingTask === undefined) {
         this._reminder = moment();
         chrome.notifications.create(
@@ -118,7 +117,7 @@ class RunrunTasks {
         }
       }
 
-      localStorage.setItem("is_working_on", (JSON.isAJSONString(this._is_working_on)) ? JSON.stringify(this._is_working_on) : false);
+      localStorage.setItem("is_working_on", (this._is_working_on !== false) ? JSON.stringify(this._is_working_on) : false);
       localStorage.setItem("reminder", this._reminder.format());
 
       chrome.runtime.sendMessage({
