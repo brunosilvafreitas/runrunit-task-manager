@@ -63,7 +63,7 @@ class RunrunTasks {
             "type": 'basic', 
             "iconUrl": 'images/icon_128.png', 
             "title": "Pause!!!", 
-            "message": `Task "${this._is_working_on.title}" has been paused.`
+            "message": `You have stopped working on "${this._is_working_on.title}".`
             },
             () => {}
         );
@@ -75,7 +75,7 @@ class RunrunTasks {
             "type": 'basic', 
             "iconUrl": 'images/icon_128_active.png', 
             "title": "Work!!!", 
-            "message": `Task "${workingTask.title}" has been started.`
+            "message": `You are now working on "${workingTask.title}".`
             },
             () => {}
         );
@@ -99,7 +99,7 @@ class RunrunTasks {
               "type": 'basic', 
               "iconUrl": 'images/icon_128_reminder.png', 
               "title": "Reminder!!!", 
-              "message": `You are still working on task "${this._is_working_on.title}".`
+              "message": `You are still working on "${this._is_working_on.title}".`
             },
             () => {}
           );
@@ -110,7 +110,7 @@ class RunrunTasks {
               "type": 'basic', 
               "iconUrl": 'images/icon_128_reminder.png', 
               "title": "Reminder!!!", 
-              "message": `There are no tasks currently in progress.`
+              "message": `You have no tasks currently in progress.`
             },
             () => {}
           );
