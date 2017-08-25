@@ -105,7 +105,7 @@ class OptionsPage extends React.Component {
           <strong>2. Then, if there is no "App key", click on "Generate".</strong><br />
           <img src="/images/tutorial2.png" /><br />
           <span>* Permission needed. If it does not appear, contact anyone with "Administrator" role.</span><br /><br />
-          <strong>3. Your "App Key" will be displayed with the "User Token" (or only the "User Token" if you are not an "Administrator").</strong><br />
+          <strong>3. Your "App Key" and "User Token" will be displayed (or only the "User Token" if you aren't an "Administrator").</strong><br />
           <img src="/images/tutorial3.png" /><br /><br />
           <strong>4. You can take your "User Id" on this page url.</strong><br />
           <img src="/images/tutorial4.png" /><br /><br />
