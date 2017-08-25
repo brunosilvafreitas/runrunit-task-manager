@@ -107,7 +107,7 @@ class OptionsPage extends React.Component {
           <span>* Permission needed. If it does not appear, contact anyone with "Administrator" role.</span><br /><br />
           <strong>3. Your "App Key" and "User Token" will be displayed (or only the "User Token" if you aren't an "Administrator").</strong><br />
           <img src="/images/tutorial3.png" /><br /><br />
-          <strong>4. You can take your "User Id" on this page url.</strong><br />
+          <strong>4. You can get your "User ID" on this page\'s url.</strong><br />
           <img src="/images/tutorial4.png" /><br /><br />
         </div>
         <button type="button" className="btn btn-info" onClick={this.handleViewToggle}>&lt;</button>

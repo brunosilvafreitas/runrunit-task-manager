@@ -1,6 +1,4 @@
 const webpack = require('webpack');
-var CompressionPlugin = require("compression-webpack-plugin");
-const env = (process.env.NODE_ENV && process.env.NODE_ENV === 'production') ? 'production' : 'development';
 
 module.exports = {
   entry: ['babel-polyfill', "./app/index.js"],
@@ -38,7 +36,7 @@ module.exports = {
   watchOptions: {
     poll: true
   },
-  plugins: (env === 'production') ? [
+  plugins: [
     new webpack.LoaderOptionsPlugin({
       minimize: true,
       debug: false
@@ -59,21 +57,6 @@ module.exports = {
         screw_ie8: true
       },
       comments: false
-    }),
-    new CompressionPlugin({
-			asset: "[path].gz[query]",
-			algorithm: "gzip",
-			test: /\.(js)$/,
-			threshold: 10240,
-			minRatio: 0.8
-		})
-  ] : [
-    new CompressionPlugin({
-			asset: "[path].gz[query]",
-			algorithm: "gzip",
-			test: /\.(js)$/,
-			threshold: 10240,
-			minRatio: 0.8
-		})
+    })
   ]
 };
