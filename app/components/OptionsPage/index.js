@@ -89,8 +89,11 @@ class OptionsPage extends React.Component {
           <input type="text" className="form-control" name="userid" value={this.state.userid} required onChange={this.handleInputChange} />
         </div>
         <div className="form-group">
-          <label htmlFor="rememberTimeInMinutes">Remember me every * minutes</label>
+          <label htmlFor="rememberTimeInMinutes">Notification interval</label>
           <input type="number" className="form-control" name="rememberTimeInMinutes" value={this.state.rememberTimeInMinutes} required onChange={this.handleInputChange} />
+          <small className="form-text text-muted">
+            * You will be reminded every X minutes whether you are either working on the same task or haven't started one. In case you either pause or start a task, the timer will reset.
+          </small>
         </div>
         <button type="submit" className="btn btn-primary">Save</button>
         <button type="button" className="btn btn-info float-right" onClick={this.handleViewToggle}>Tutorial</button>
@@ -107,7 +110,7 @@ class OptionsPage extends React.Component {
           <span>* Permission needed. If it does not appear, contact anyone with "Administrator" role.</span><br /><br />
           <strong>3. Your "App Key" and "User Token" will be displayed (or only the "User Token" if you aren't an "Administrator").</strong><br />
           <img src="/images/tutorial3.png" /><br /><br />
-          <strong>4. You can get your "User ID" on this page\'s url.</strong><br />
+          <strong>4. You can get your "User ID" on this page's url.</strong><br />
           <img src="/images/tutorial4.png" /><br /><br />
         </div>
         <button type="button" className="btn btn-info" onClick={this.handleViewToggle}>&lt;</button>

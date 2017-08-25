@@ -87,8 +87,8 @@ class OpenedTasksPage extends React.Component {
       </li>
     )) : (
       <li className="text-center">
-        The user has not been configured.<br />
-        click settings and add your user data!
+        Welcome to Runrun.it Task Manager!<br />
+        Click <a href="options.html" target="_blank">here</a> to set up your Runrun.it account.
       </li>
     );
 
