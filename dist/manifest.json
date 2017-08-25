@@ -14,8 +14,7 @@
     "notifications",
     "alarms",
     "storage",
-    "https://secure.runrun.it/",
-    "https://use.fontawesome.com/"
+    "https://secure.runrun.it/"
   ],
   "background" : {
     "scripts": [ "axios.min.js", "moment.js","eventPage.js" ],

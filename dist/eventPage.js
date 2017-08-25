@@ -1,9 +1,17 @@
+JSON.isAJSONString = (object) => {
+  try {
+    JSON.parse(object);
+  } catch (e) {
+    return false;
+  }
+  return true;
+};
+
 class RunrunTasks {
   constructor() {
     this._tasks = [];
-    this._is_working_on = false;
-    this._reminder = moment();
-    this._channel;
+    this._is_working_on = (JSON.isAJSONString(localStorage.getItem("is_working_on"))) ? JSON.parse(localStorage.getItem("is_working_on")) : false;
+    this._reminder = (localStorage.getItem("reminder")) ? moment(localStorage.getItem("reminder")) : moment();
     parent = this;
 
     this.updateTasks = this.updateTasks.bind(this);
@@ -38,7 +46,7 @@ class RunrunTasks {
   
     request.get('https://secure.runrun.it/api/v1.0/tasks', {
       params: {
-        user_id: localStorage.getItem("userid"),
+        responsible_id: localStorage.getItem("userid"),
         is_closed: false
       }
     })
@@ -109,6 +117,9 @@ class RunrunTasks {
           );
         }
       }
+
+      localStorage.setItem("is_working_on", (JSON.isAJSONString(this._is_working_on)) ? JSON.stringify(this._is_working_on) : false);
+      localStorage.setItem("reminder", this._reminder.format());
 
       chrome.runtime.sendMessage({
         subject: "taskUpdated",
