@@ -1,6 +1,6 @@
 {
   "name": "runrunit-task-manager",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A Runrun.it Task Manager",
   "main": "index.js",
   "scripts": {
