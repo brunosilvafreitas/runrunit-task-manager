@@ -92,8 +92,8 @@ class RunrunTasks {
 
       const hasReminder = localStorage.getItem("rememberTimeInMinutes") || 0;
       if(hasReminder && this._reminder.isSameOrBefore(moment().subtract(hasReminder, 'm'))) {
+        this._reminder = moment();
         if(this._is_working_on) {
-          this._reminder = moment();
           chrome.notifications.create(
             'runrunit_task_notification', {
               "type": 'basic', 
