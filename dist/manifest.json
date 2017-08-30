@@ -3,7 +3,7 @@
   "name": "Runrun.it Task Manager",
   "short_name": "RunrunTM",
   "description": "A Runrun.it Task Manager!",
-  "version": "1.1.4",
+  "version": "1.2.0",
   "browser_action": {
     "default_icon": "images/icon_16.png",
     "default_title": "Runrun.it Task Manager",
@@ -11,6 +11,7 @@
   },
   "permissions": [
     "tabs",
+    "idle",
     "notifications",
     "alarms",
     "storage",

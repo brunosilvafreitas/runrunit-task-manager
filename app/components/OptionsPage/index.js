@@ -8,7 +8,8 @@ class OptionsPage extends React.Component {
       appkey: localStorage.getItem("appkey") || "",
       usertoken: localStorage.getItem("usertoken") || "",
       userid: localStorage.getItem("userid") || "",
-      rememberTimeInMinutes: localStorage.getItem("rememberTimeInMinutes") || 30,
+      reminderEnabled: (localStorage.getItem("reminderEnabled") && localStorage.getItem("reminderEnabled") === "true") ? true : false,
+      reminderTimeInMinutes: localStorage.getItem("reminderTimeInMinutes") || 30,
       view: "options",
       msg: ""
     };
@@ -26,12 +27,14 @@ class OptionsPage extends React.Component {
   }
 
   handleInputChange(e) {
-    const {name, value, type} = e.target;
+    const {name, value, type, checked} = e.target;
 
     const getValueByType = () => {
       switch(type) {
         case 'number':
           return Number(value);
+        case 'checkbox':
+          return checked;
         default:
           return value;
       }
@@ -48,7 +51,8 @@ class OptionsPage extends React.Component {
     localStorage.setItem("appkey", this.state.appkey);
     localStorage.setItem("usertoken", this.state.usertoken);
     localStorage.setItem("userid", this.state.userid);
-    localStorage.setItem("rememberTimeInMinutes", this.state.rememberTimeInMinutes);
+    localStorage.setItem("reminderEnabled", this.state.reminderEnabled);
+    localStorage.setItem("reminderTimeInMinutes", this.state.reminderTimeInMinutes);
 
     this.setState({
       msg: {
@@ -89,8 +93,15 @@ class OptionsPage extends React.Component {
           <input type="text" className="form-control" name="userid" value={this.state.userid} required onChange={this.handleInputChange} />
         </div>
         <div className="form-group">
-          <label htmlFor="rememberTimeInMinutes">Notification interval</label>
-          <input type="number" className="form-control" name="rememberTimeInMinutes" value={this.state.rememberTimeInMinutes} required onChange={this.handleInputChange} />
+          <label htmlFor="reminderTimeInMinutes">Reminder's interval ({
+              (this.state.reminderEnabled) ? "Enabled" : "Disabled"
+            })</label>
+          <div className="input-group">
+            <span className="input-group-addon">
+              <input type="checkbox" name="reminderEnabled" checked={this.state.reminderEnabled} onChange={this.handleInputChange} />
+            </span>
+            <input type="number" min="1" className="form-control" name="reminderTimeInMinutes" value={this.state.reminderTimeInMinutes} disabled={!this.state.reminderEnabled} required onChange={this.handleInputChange} />
+          </div>
           <small className="form-text text-muted">
             * You will be reminded every X minutes whether you are either working on the same task or haven't started one. In case you either pause or start a task, the timer will reset.
           </small>

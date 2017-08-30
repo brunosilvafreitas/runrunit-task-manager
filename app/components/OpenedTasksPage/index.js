@@ -10,13 +10,15 @@ class OpenedTasksPage extends React.Component {
     parent = this;
     
     this.state = {
-      tasks: []
+      tasks: [],
+      trackedTask: localStorage.getItem("trackedTask")
     };
     
     this.handleSetList = this.handleSetList.bind(this);
     this.handleGetList = this.handleGetList.bind(this);
     this.handlePlay = this.handlePlay.bind(this);
     this.handlePause = this.handlePause.bind(this);
+    this.handleTaskTracking = this.handleTaskTracking.bind(this);
 
     chrome.runtime.onMessage.addListener((msg) => {
       if(msg.subject === "taskUpdated")
@@ -39,6 +41,7 @@ class OpenedTasksPage extends React.Component {
 
   handlePause(id) {
     return () => {
+      localStorage.setItem("trackedTask", "");
       request.post(`https://secure.runrun.it/api/v1.0/tasks/${id}/pause`)
         .then(response => {
           this.handleGetList();
@@ -56,13 +59,28 @@ class OpenedTasksPage extends React.Component {
   }
 
   handleSetList(tasks) {
-    this.setState({tasks});
+    this.setState({
+      tasks,
+      trackedTask: localStorage.getItem("trackedTask")
+    });
   }
 
   handleGetList() {
     chrome.runtime.sendMessage({
       subject: "taskUpdateRequest"
     });
+  }
+
+  handleTaskTracking(id) {
+    return () => {
+      if(localStorage.getItem("trackedTask") && localStorage.getItem("trackedTask") == id)
+        localStorage.setItem("trackedTask", "");
+      else
+        localStorage.setItem("trackedTask", id);
+      this.setState({
+        trackedTask: localStorage.getItem("trackedTask")
+      });
+    };
   }
 
   render() {
@@ -83,6 +101,13 @@ class OpenedTasksPage extends React.Component {
             <span className="oi" data-glyph="media-play"></span> WORK
             </button>)
           } <button type="button" className="btn btn-sm btn-light" onClick={this.handleClose(task.id)}>COMPLETE</button>
+
+          {(task.is_working_on)?(
+            <button title="When this option is active the extension will manage the task for you, pausing/resuming if you lock/unlock the machine." type="button" className={`btn btn-sm btn-${(this.state.trackedTask == task.id)?'warning':'light'} float-right`} onClick={this.handleTaskTracking(task.id)}>
+              <span className="oi" data-glyph="monitor"></span>
+            </button>
+          ):""}
+
         </div>
       </li>
     )) : (
