@@ -28,35 +28,6 @@ class RunrunTasks {
     parent = this;
 
     this.updateTasks = this.updateTasks.bind(this);
-
-    chrome.alarms.onAlarm.addListener((alarm) => {
-      if(alarm.name === 'updateTasks') {
-        const hasAppKey = !!localStorage.getItem("appkey");
-        if(hasAppKey)
-          parent.updateTasks();
-      }
-    });
-    
-    chrome.alarms.create('updateTasks', {
-      periodInMinutes: 0.08
-    });
-
-    chrome.runtime.onMessage.addListener((msg) => {
-      if(msg.subject === "taskUpdateRequest") {
-        parent.updateTasks();
-      }
-    });
-
-    chrome.idle.onStateChanged.addListener((state) => {
-      state = (state === "idle") ? "active" : state;
-      if(localStorage.getItem("lastMachineStatus") !== state && localStorage.getItem("trackedTask") !== "") {
-        if(state === "locked")
-          parent.pauseTask(localStorage.getItem("trackedTask"));
-        else if(state === "active")
-          parent.resumeTask(localStorage.getItem("trackedTask"));
-      }
-      localStorage.setItem("lastMachineStatus", state);
-    });
   }
 
   getHttpClient() {
@@ -184,3 +155,33 @@ class RunrunTasks {
   }
 }
 const UserRunrunTasks = new RunrunTasks();
+
+chrome.alarms.onAlarm.addListener((alarm) => {
+  if(alarm.name === 'updateTasks') {
+    const hasAppKey = !!localStorage.getItem("appkey");
+    if(hasAppKey)
+      UserRunrunTasks.updateTasks();
+  }
+});
+
+chrome.runtime.onMessage.addListener((msg) => {
+  if(msg.subject === "taskUpdateRequest") {
+    UserRunrunTasks.updateTasks();
+  }
+});
+
+chrome.idle.setDetectionInterval(15);
+chrome.idle.onStateChanged.addListener(state => {
+  state = (state === "idle") ? "active" : state;
+  if(localStorage.getItem("lastMachineStatus") !== state && localStorage.getItem("trackedTask") !== "") {
+    if(state === "locked")
+      UserRunrunTasks.pauseTask(localStorage.getItem("trackedTask"));
+    else if(state === "active")
+      UserRunrunTasks.resumeTask(localStorage.getItem("trackedTask"));
+  }
+  localStorage.setItem("lastMachineStatus", state);
+});
+
+chrome.alarms.create('updateTasks', {
+  periodInMinutes: 0.08
+});
