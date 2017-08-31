@@ -9,3 +9,10 @@
 - Add feature to pause/resume task when lock/unlock the machine
 ### Changed
 - Can disable the reminder
+
+## [1.2.1] - 2017-08-31
+### Added
+- Message "You have no task"
+- Add estimated time
+### Changed
+- Display loading icon

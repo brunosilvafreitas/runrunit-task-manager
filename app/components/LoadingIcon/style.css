@@ -1,0 +1,22 @@
+.loadingIcon {
+  position: relative;
+  display: inline-block;
+  font-size: 18px;
+}
+
+.loadingIcon::before {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border: 0.15em solid #ddd;
+  border-radius: 50%;
+  border-right: 0.15em solid transparent;
+  animation: spin 1s linear infinite;
+  margin: auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
