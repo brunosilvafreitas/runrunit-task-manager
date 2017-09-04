@@ -159,7 +159,7 @@ const UserRunrunTasks = new RunrunTasks();
 chrome.alarms.onAlarm.addListener((alarm) => {
   if(alarm.name === 'updateTasks') {
     const hasAppKey = !!localStorage.getItem("appkey");
-    if(hasAppKey)
+    if(hasAppKey && localStorage.getItem("lastMachineStatus") === "active")
       UserRunrunTasks.updateTasks();
   }
 });

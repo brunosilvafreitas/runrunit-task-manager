@@ -6,3 +6,23 @@
   cursor: default;
   pointer-events: none;
 }
+
+:global(.text-size-xs) {
+  font-size: 10px;
+}
+
+:global(.text-size-sm) {
+  font-size: 12px;
+}
+
+:global(.text-size-md) {
+  font-size: 14px;
+}
+
+:global(.text-size-lg) {
+  font-size: 16px;
+}
+
+:global(.text-size-xlg) {
+  font-size: 18px;
+}

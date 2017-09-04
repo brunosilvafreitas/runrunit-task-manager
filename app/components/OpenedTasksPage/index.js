@@ -109,8 +109,11 @@ class OpenedTasksPage extends React.Component {
         return this.state.tasks.map((task, index) => (
           <li key={index} className="list-group-item">
             <a href={`https://secure.runrun.it/tasks/${task.id}`} target="_blank">{task.id} - {task.title}</a>
+            <div className="text-size-sm pb-1">
+              {task.client_name} > {task.project_name}
+            </div>
             <div>
-              <button type="button" className={`btn btn-${(task.time_worked > task.current_estimate_seconds)?'danger':'info'} btn-sm nohover`}>
+              <button type="button" className={`btn btn-${(task.current_estimate_seconds != 0 && task.time_worked > task.current_estimate_seconds)?'danger':'info'} btn-sm nohover`}>
                 <span data-glyph="timer" className="oi"></span> {
                   timer(task.time_worked)
                 } {
