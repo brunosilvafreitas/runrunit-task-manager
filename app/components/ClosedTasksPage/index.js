@@ -6,32 +6,46 @@ import style from './style.css';
 import moment from 'moment';
 import 'moment-duration-format';
 
-class OpenedTasksPage extends React.Component {
+class ClosedTasksPage extends React.Component {
   constructor(props) {
     super(props);
-    parent = this;
     
     this.state = {
       tasks: undefined,
-      trackedTask: localStorage.getItem("trackedTask"),
       taskExpanded: undefined
     };
     
     this.handleTaskDetailToggle = this.handleTaskDetailToggle.bind(this);
-    this.handleSetList = this.handleSetList.bind(this);
     this.handleGetList = this.handleGetList.bind(this);
-    this.handlePlay = this.handlePlay.bind(this);
-    this.handlePause = this.handlePause.bind(this);
-    this.handleTaskTracking = this.handleTaskTracking.bind(this);
-
-    chrome.runtime.onMessage.addListener((msg) => {
-      if(msg.subject === "taskUpdated")
-        parent.handleSetList(msg.body);
-    });
+    this.handleReopen = this.handleReopen.bind(this);
   }
 
   componentDidMount() {
     this.handleGetList();
+  }
+
+  handleGetList() {
+    request.get('https://secure.runrun.it/api/v1.0/tasks', {
+      params: {
+        responsible_id: localStorage.getItem("userid"),
+        is_closed: true,
+        limit: 10
+      }
+    })
+    .then(response => {
+      this.setState({
+        tasks: response.data
+      });
+    });
+  }
+
+  handleReopen(id) {
+    return () => {
+      request.post(`https://secure.runrun.it/api/v1.0/tasks/${id}/reopen`)
+        .then(response => {
+          this.handleGetList();
+        });
+    };
   }
 
   handleTaskDetailToggle(id) {
@@ -42,62 +56,9 @@ class OpenedTasksPage extends React.Component {
     };
   }
 
-  handlePlay(id) {
-    return () => {
-      request.post(`https://secure.runrun.it/api/v1.0/tasks/${id}/play`)
-        .then(response => {
-          this.handleGetList();
-        });
-    };
-  }
-
-  handlePause(id) {
-    return () => {
-      localStorage.setItem("trackedTask", "");
-      request.post(`https://secure.runrun.it/api/v1.0/tasks/${id}/pause`)
-        .then(response => {
-          this.handleGetList();
-        });
-    };
-  }
-
-  handleClose(id) {
-    return () => {
-      request.post(`https://secure.runrun.it/api/v1.0/tasks/${id}/close`)
-        .then(response => {
-          this.handleGetList();
-        });
-    };
-  }
-
-  handleSetList(tasks) {
-    this.setState({
-      tasks,
-      trackedTask: localStorage.getItem("trackedTask")
-    });
-  }
-
-  handleGetList() {
-    chrome.runtime.sendMessage({
-      subject: "taskUpdateRequest"
-    });
-  }
-
-  handleTaskTracking(id) {
-    return () => {
-      if(localStorage.getItem("trackedTask") && localStorage.getItem("trackedTask") == id)
-        localStorage.setItem("trackedTask", "");
-      else
-        localStorage.setItem("trackedTask", id);
-      this.setState({
-        trackedTask: localStorage.getItem("trackedTask")
-      });
-    };
-  }
-
   render() {
     const timer = (seconds) => moment.duration(seconds, 'seconds').format('HH:mm', {trim:false});
-    
+
     const tasks = (() => {
       if(!localStorage.getItem("appkey"))
         return (
@@ -113,7 +74,7 @@ class OpenedTasksPage extends React.Component {
       else if(this.state.tasks instanceof Array && this.state.tasks.length === 0)
         return (
           <li className="text-center">
-            You have no task at the moment.
+            You don't have closed tasks at the moment.
           </li>
         );
       else
@@ -145,7 +106,12 @@ class OpenedTasksPage extends React.Component {
                     ))}
                   </li>
                   <li className="list-group-item list-group-item-light">
-                    <strong>Started:</strong> {moment(task.start_date).format("MMM DD, hh:mm A")}
+                    <div className="col">
+                      <strong>Started:</strong> {moment(task.start_date).format("MMM DD, hh:mm A")}
+                    </div>
+                    <div className="col">
+                      <strong>Completed:</strong> {moment(task.close_date).format("MMM DD, hh:mm A")}
+                    </div>
                   </li>
                 </ul>
               ) : ""}
@@ -158,22 +124,7 @@ class OpenedTasksPage extends React.Component {
                   (task.current_estimate_seconds) ? 
                   '/ ' + timer(task.current_estimate_seconds) : ""
                 }
-              </button> {
-                (task.is_working_on) ?
-                (<button type="button" className="btn btn-sm btn-primary" onClick={this.handlePause(task.id)}>
-                <span className="oi" data-glyph="media-pause"></span> PAUSE
-                </button>) :
-                (<button type="button" className="btn btn-sm btn-primary" onClick={this.handlePlay(task.id)}>
-                <span className="oi" data-glyph="media-play"></span> WORK
-                </button>)
-              } <button type="button" className="btn btn-sm btn-light" onClick={this.handleClose(task.id)}>COMPLETE</button>
-    
-              {(task.is_working_on)?(
-                <button title="When this option is active the extension will manage the task for you, pausing/resuming if you lock/unlock the machine." type="button" className={`btn btn-sm btn-${(this.state.trackedTask == task.id)?'warning':'light'} float-right`} onClick={this.handleTaskTracking(task.id)}>
-                  <span className="oi" data-glyph="monitor"></span>
-                </button>
-              ):""}
-    
+              </button> <button type="button" className="btn btn-sm btn-primary" onClick={this.handleReopen(task.id)}>REOPEN</button>
             </div>
           </li>
         ));
@@ -194,12 +145,13 @@ class OpenedTasksPage extends React.Component {
             </li>
           </ul>
         </div>
-        <ul className={`list-group ${style.OpenedTasksPage}`}>
+        <ul className={`list-group ${style.ClosedTasksPage}`}>
           {tasks}
         </ul>
       </div>
     );
+
   }
 }
 
-export default OpenedTasksPage;
+export default ClosedTasksPage;

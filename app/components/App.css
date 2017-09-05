@@ -26,3 +26,10 @@
 :global(.text-size-xlg) {
   font-size: 18px;
 }
+
+:global(.btn-xs) {
+  padding: .25rem .25rem;
+  font-size: .4rem;
+  line-height: .75;
+  border-radius: .2rem;
+}
