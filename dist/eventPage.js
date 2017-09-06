@@ -23,6 +23,9 @@ class RunrunTasks {
     if(!localStorage.getItem("trackedTask"))
       localStorage.setItem("trackedTask", "");
 
+    if(!localStorage.getItem("autoPauseResume"))
+      localStorage.setItem("autoPauseResume", false);
+
     this._is_working_on = (localStorage.getItem("is_working_on") && JSON.isAJSONString(localStorage.getItem("is_working_on"))) ? JSON.parse(localStorage.getItem("is_working_on")) : false;
     this._reminder = (localStorage.getItem("reminder")) ? moment(localStorage.getItem("reminder")) : moment();
     parent = this;
@@ -173,7 +176,7 @@ chrome.runtime.onMessage.addListener((msg) => {
 chrome.idle.setDetectionInterval(15);
 chrome.idle.onStateChanged.addListener(state => {
   state = (state === "idle") ? "active" : state;
-  if(localStorage.getItem("lastMachineStatus") !== state && localStorage.getItem("trackedTask") !== "") {
+  if(localStorage.getItem("autoPauseResume") && localStorage.getItem("autoPauseResume") === "true" && localStorage.getItem("lastMachineStatus") !== state && localStorage.getItem("trackedTask") !== "") {
     if(state === "locked")
       UserRunrunTasks.pauseTask(localStorage.getItem("trackedTask"));
     else if(state === "active")

@@ -1,10 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router';
-import request from '../AuthInterceptor';
-import LoadingIcon from '../LoadingIcon';
-import style from './style.css';
 import moment from 'moment';
 import 'moment-duration-format';
+
+import style from './style.css';
+import request from '../AuthInterceptor';
+import LoadingIcon from '../LoadingIcon';
+import PopupHeader from '../PopupHeader';
+import PopupNav from '../PopupNav';
+import TaskDetail from '../TaskDetail';
 
 class OpenedTasksPage extends React.Component {
   constructor(props) {
@@ -14,6 +18,7 @@ class OpenedTasksPage extends React.Component {
     this.state = {
       tasks: undefined,
       trackedTask: localStorage.getItem("trackedTask"),
+      autoPauseResume: (localStorage.getItem("autoPauseResume") && localStorage.getItem("autoPauseResume") === "true") ? true : false,
       taskExpanded: undefined
     };
     
@@ -129,25 +134,7 @@ class OpenedTasksPage extends React.Component {
                 )
               } </button>
               {(this.state.taskExpanded === task.id) ? (
-                <ul className="list-group mt-1 mb-1">
-                  <li className="list-group-item list-group-item-light">
-                    <strong>Responsible:</strong> {task.responsible_name}
-                  </li>
-                  <li className="list-group-item list-group-item-light">
-                    <strong>Type:</strong> {task.type_name}
-                  </li>
-                  <li className="list-group-item list-group-item-light">
-                    <strong>Client > Project:</strong> {task.client_name} > {task.project_name}
-                  </li>
-                  <li className="list-group-item list-group-item-light">
-                    <strong>Tags:</strong> {task.task_tags.map((tag, index) => (
-                      <span key={index} className="badge badge-secondary mr-1">{tag}</span>
-                    ))}
-                  </li>
-                  <li className="list-group-item list-group-item-light">
-                    <strong>Started:</strong> {moment(task.start_date).format("MMM DD, hh:mm A")}
-                  </li>
-                </ul>
+                <TaskDetail task={task} />
               ) : ""}
             </div>
             <div>
@@ -168,7 +155,7 @@ class OpenedTasksPage extends React.Component {
                 </button>)
               } <button type="button" className="btn btn-sm btn-light" onClick={this.handleClose(task.id)}>COMPLETE</button>
     
-              {(task.is_working_on)?(
+              {(this.state.autoPauseResume && task.is_working_on)?(
                 <button title="When this option is active the extension will manage the task for you, pausing/resuming if you lock/unlock the machine." type="button" className={`btn btn-sm btn-${(this.state.trackedTask == task.id)?'warning':'light'} float-right`} onClick={this.handleTaskTracking(task.id)}>
                   <span className="oi" data-glyph="monitor"></span>
                 </button>
@@ -182,17 +169,8 @@ class OpenedTasksPage extends React.Component {
     return (
       <div>
         <div>
-          <a href="https://secure.runrun.it/en-US/tasks" target="_blank"><img src="images/runrun.png" className={style.RunrunIcon} /></a>
-          <a href="options.html" target="_blank"><img src="/open-iconic/svg/cog.svg" className={style.Settings} /></a>
-          <h1 className="text-center">Tasks</h1> 
-          <ul className="nav justify-content-center mb-3">
-            <li className="nav-item">
-              <Link to="/opened-tasks" className="rounded p-2" activeClassName={style.navActive}>Opened</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/closed-tasks" className="rounded p-2" activeClassName={style.navActive}>Completed</Link>
-            </li>
-          </ul>
+          <PopupHeader title="Tasks" />
+          <PopupNav />
         </div>
         <ul className={`list-group ${style.OpenedTasksPage}`}>
           {tasks}

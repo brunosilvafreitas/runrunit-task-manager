@@ -16,3 +16,8 @@
 - Add estimated time
 ### Changed
 - Display loading icon
+
+## [1.3.0] - 2017-09-06
+### Added
+- Add button show task detail
+- Add completed tasks page

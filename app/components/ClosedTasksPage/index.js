@@ -1,10 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router';
-import request from '../AuthInterceptor';
-import LoadingIcon from '../LoadingIcon';
-import style from './style.css';
 import moment from 'moment';
 import 'moment-duration-format';
+
+import style from './style.css';
+import request from '../AuthInterceptor';
+import LoadingIcon from '../LoadingIcon';
+import PopupHeader from '../PopupHeader';
+import PopupNav from '../PopupNav';
+import TaskDetail from '../TaskDetail';
 
 class ClosedTasksPage extends React.Component {
   constructor(props) {
@@ -25,16 +29,20 @@ class ClosedTasksPage extends React.Component {
   }
 
   handleGetList() {
-    request.get('https://secure.runrun.it/api/v1.0/tasks', {
-      params: {
-        responsible_id: localStorage.getItem("userid"),
-        is_closed: true,
-        limit: 10
-      }
-    })
-    .then(response => {
-      this.setState({
-        tasks: response.data
+    this.setState({
+      tasks: undefined
+    }, () => {
+      request.get('https://secure.runrun.it/api/v1.0/tasks', {
+        params: {
+          responsible_id: localStorage.getItem("userid"),
+          is_closed: true,
+          limit: 10
+        }
+      })
+      .then(response => {
+        this.setState({
+          tasks: response.data
+        });
       });
     });
   }
@@ -90,30 +98,7 @@ class ClosedTasksPage extends React.Component {
                 )
               } </button>
               {(this.state.taskExpanded === task.id) ? (
-                <ul className="list-group mt-1 mb-1">
-                  <li className="list-group-item list-group-item-light">
-                    <strong>Responsible:</strong> {task.responsible_name}
-                  </li>
-                  <li className="list-group-item list-group-item-light">
-                    <strong>Type:</strong> {task.type_name}
-                  </li>
-                  <li className="list-group-item list-group-item-light">
-                    <strong>Client > Project:</strong> {task.client_name} > {task.project_name}
-                  </li>
-                  <li className="list-group-item list-group-item-light">
-                    <strong>Tags:</strong> {task.task_tags.map((tag, index) => (
-                      <span key={index} className="badge badge-secondary mr-1">{tag}</span>
-                    ))}
-                  </li>
-                  <li className="list-group-item list-group-item-light">
-                    <div className="col">
-                      <strong>Started:</strong> {moment(task.start_date).format("MMM DD, hh:mm A")}
-                    </div>
-                    <div className="col">
-                      <strong>Completed:</strong> {moment(task.close_date).format("MMM DD, hh:mm A")}
-                    </div>
-                  </li>
-                </ul>
+                <TaskDetail task={task} />
               ) : ""}
             </div>
             <div>
@@ -133,17 +118,11 @@ class ClosedTasksPage extends React.Component {
     return (
       <div>
         <div>
-          <a href="https://secure.runrun.it/en-US/tasks" target="_blank"><img src="images/runrun.png" className={style.RunrunIcon} /></a>
-          <a href="options.html" target="_blank"><img src="/open-iconic/svg/cog.svg" className={style.Settings} /></a>
-          <h1 className="text-center">Tasks</h1> 
-          <ul className="nav justify-content-center mb-3">
-            <li className="nav-item">
-              <Link to="/opened-tasks" className="rounded p-2" activeClassName={style.navActive}>Opened</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/closed-tasks" className="rounded p-2" activeClassName={style.navActive}>Completed</Link>
-            </li>
-          </ul>
+          <PopupHeader title="Tasks" />
+          <PopupNav />
+        </div>
+        <div className="text-center text-secondary text-size-sm">
+          * last ten tasks completed.
         </div>
         <ul className={`list-group ${style.ClosedTasksPage}`}>
           {tasks}

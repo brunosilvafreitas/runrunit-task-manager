@@ -1,0 +1,4 @@
+.navActive,.navActive:focus,.navActive:hover {
+  color: #fff;
+  background-color: #007bff !important;
+}

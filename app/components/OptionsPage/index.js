@@ -11,7 +11,8 @@ class OptionsPage extends React.Component {
       reminderEnabled: (localStorage.getItem("reminderEnabled") && localStorage.getItem("reminderEnabled") === "true") ? true : false,
       reminderTimeInMinutes: localStorage.getItem("reminderTimeInMinutes") || 30,
       view: "options",
-      msg: ""
+      msg: "",
+      autoPauseResume: (localStorage.getItem("autoPauseResume") && localStorage.getItem("autoPauseResume") === "true") ? true : false
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -53,6 +54,12 @@ class OptionsPage extends React.Component {
     localStorage.setItem("userid", this.state.userid);
     localStorage.setItem("reminderEnabled", this.state.reminderEnabled);
     localStorage.setItem("reminderTimeInMinutes", this.state.reminderTimeInMinutes);
+    localStorage.setItem("autoPauseResume", this.state.autoPauseResume);
+
+    if(!this.state.autoPauseResume) {
+      localStorage.setItem("lastMachineStatus", "active");
+      localStorage.setItem("trackedTask", "");
+    }
 
     this.setState({
       msg: {
@@ -106,6 +113,16 @@ class OptionsPage extends React.Component {
             * You will be reminded every X minutes whether you are either working on the same task or haven't started one. In case you either pause or start a task, the timer will reset.
           </small>
         </div>
+
+        <div className="form-check">
+          <label className="form-check-label" htmlFor="autoPauseResume">
+            <input type="checkbox" className="form-check-input" name="autoPauseResume" checked={this.state.autoPauseResume} onChange={this.handleInputChange} /> Auto Pause/Resume
+          </label>
+          <small className="form-text text-muted">
+            * By enabling this option, an icon will be displayed to the right of the task you're currently working on, allowing it be automatically paused/resumed when you lock/unlock your computer. However, we've noticed that this feature doesn't work as expected on some computers. If you really wish to use this feature, we strongly suggest you to test it by locking your computer for a few minutes and then checking on your task details to see if the recorded time is correct.
+          </small>
+        </div>
+
         <button type="submit" className="btn btn-primary">Save</button>
         <button type="button" className="btn btn-info float-right" onClick={this.handleViewToggle}>Tutorial</button>
       </form>
