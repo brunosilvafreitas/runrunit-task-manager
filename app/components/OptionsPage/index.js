@@ -1,4 +1,5 @@
 import React from 'react';
+import request from '../AuthInterceptor';
 
 class OptionsPage extends React.Component {
   constructor(props) {
@@ -7,7 +8,6 @@ class OptionsPage extends React.Component {
     this.state = {
       appkey: localStorage.getItem("appkey") || "",
       usertoken: localStorage.getItem("usertoken") || "",
-      userid: localStorage.getItem("userid") || "",
       reminderEnabled: (localStorage.getItem("reminderEnabled") && localStorage.getItem("reminderEnabled") === "true") ? true : false,
       reminderTimeInMinutes: localStorage.getItem("reminderTimeInMinutes") || 30,
       view: "options",
@@ -51,7 +51,6 @@ class OptionsPage extends React.Component {
 
     localStorage.setItem("appkey", this.state.appkey);
     localStorage.setItem("usertoken", this.state.usertoken);
-    localStorage.setItem("userid", this.state.userid);
     localStorage.setItem("reminderEnabled", this.state.reminderEnabled);
     localStorage.setItem("reminderTimeInMinutes", this.state.reminderTimeInMinutes);
     localStorage.setItem("autoPauseResume", this.state.autoPauseResume);
@@ -61,12 +60,16 @@ class OptionsPage extends React.Component {
       localStorage.setItem("trackedTask", "");
     }
 
-    this.setState({
-      msg: {
-        type: 'success',
-        text: "Success!"
-      }
-    })
+    request.get(`https://secure.runrun.it/api/v1.0/users/me`)
+    .then(response => {
+      localStorage.setItem("user", JSON.stringify(response.data));
+      this.setState({
+        msg: {
+          type: 'success',
+          text: "Success!"
+        }
+      });
+    });
   }
 
   handleViewToggle() {
@@ -94,10 +97,6 @@ class OptionsPage extends React.Component {
         <div className="form-group">
           <label htmlFor="usertoken">User Token</label>
           <input type="text" className="form-control" name="usertoken" value={this.state.usertoken} required onChange={this.handleInputChange} />
-        </div>
-        <div className="form-group">
-          <label htmlFor="userid">User Id</label>
-          <input type="text" className="form-control" name="userid" value={this.state.userid} required onChange={this.handleInputChange} />
         </div>
         <div className="form-group">
           <label htmlFor="reminderTimeInMinutes">Reminder's interval ({
@@ -138,8 +137,6 @@ class OptionsPage extends React.Component {
           <span>* Permission needed. If it does not appear, contact anyone with "Administrator" role.</span><br /><br />
           <strong>3. Your "App Key" and "User Token" will be displayed (or only the "User Token" if you aren't an "Administrator").</strong><br />
           <img src="/images/tutorial3.png" /><br /><br />
-          <strong>4. You can get your "User ID" on this page's url.</strong><br />
-          <img src="/images/tutorial4.png" /><br /><br />
         </div>
         <button type="button" className="btn btn-info" onClick={this.handleViewToggle}>&lt;</button>
       </div>

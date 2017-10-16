@@ -46,10 +46,11 @@ class RunrunTasks {
 
   updateTasks() {
     const request = this.getHttpClient();
+    const user = (localStorage.getItem("user")) ? JSON.parse(localStorage.getItem("user")) : {};
   
     request.get('https://secure.runrun.it/api/v1.0/tasks', {
       params: {
-        responsible_id: localStorage.getItem("userid"),
+        responsible_id: user.id || "",
         is_closed: false
       }
     })
