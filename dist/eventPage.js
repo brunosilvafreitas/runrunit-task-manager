@@ -44,102 +44,129 @@ class RunrunTasks {
     return client;
   }
 
+  getUser() {
+    return new Promise((resolve, reject) => {
+      try {
+        const user = (localStorage.getItem("user")) ? JSON.parse(localStorage.getItem("user")) : {};
+        resolve(user);
+      } catch (error) {
+        const request = this.getHttpClient();
+        request.get(`https://secure.runrun.it/api/v1.0/users/me`)
+        .then(response => {
+          localStorage.setItem("user", JSON.stringify(response.data));
+          resolve(response.data);
+        })
+        .catch(e => {
+          reject(e);
+        });
+      }
+    });
+  }
+
   updateTasks() {
     const request = this.getHttpClient();
-    const user = (localStorage.getItem("user")) ? JSON.parse(localStorage.getItem("user")) : {};
-  
-    request.get('https://secure.runrun.it/api/v1.0/tasks', {
-      params: {
-        responsible_id: user.id || "",
-        is_closed: false
-      }
-    })
-    .then(response => {
-      this._tasks = response.data;
-
-      const workingTask = this._tasks.find((task) => {
-        return task.is_working_on;
-      });
-
-      const trackedTask = localStorage.getItem("trackedTask");
-      if(trackedTask) {
-        const trackedTaskOnTaskList = this._tasks.find((task) => {
-          return task.id == trackedTask;
+    this.getUser()
+      .then(user => {
+        return request.get('https://secure.runrun.it/api/v1.0/tasks', {
+          params: {
+            responsible_id: user.id || "",
+            is_closed: false
+          }
         });
-        if(trackedTaskOnTaskList === undefined || (workingTask !== undefined && workingTask.id !== trackedTaskOnTaskList.id))
-          localStorage.setItem("trackedTask", "");
-      }
+      })
+      .then(response => {
+        this._tasks = response.data;
 
-      if(this._is_working_on !== false && workingTask === undefined) {
-        this._reminder = moment();
-        chrome.notifications.create(
-            'runrunit_task_notification', {
-            "type": 'basic', 
-            "iconUrl": 'images/icon_128.png', 
-            "title": "Pause!!!", 
-            "message": `You have stopped working on "${this._is_working_on.title}".`
-            },
-            () => {}
-        );
-      }
-      else if(workingTask !== undefined && (this._is_working_on === false || this._is_working_on.id !== workingTask.id)) {
-        this._reminder = moment();
-        chrome.notifications.create(
-            'runrunit_task_notification', {
-            "type": 'basic', 
-            "iconUrl": 'images/icon_128_active.png', 
-            "title": "Work!!!", 
-            "message": `You are now working on "${workingTask.title}".`
-            },
-            () => {}
-        );
-      }
+        const workingTask = this._tasks.find((task) => {
+          return task.is_working_on;
+        });
 
-      if(workingTask) {
-        this._is_working_on = workingTask;
-        chrome.browserAction.setIcon({path:"images/icon_128_active.png"});
-      }
-      else {
-        this._is_working_on = false;
-        chrome.browserAction.setIcon({path:"images/icon_128.png"});
-      }
+        const trackedTask = localStorage.getItem("trackedTask");
+        if(trackedTask) {
+          const trackedTaskOnTaskList = this._tasks.find((task) => {
+            return task.id == trackedTask;
+          });
+          if(trackedTaskOnTaskList === undefined || (workingTask !== undefined && workingTask.id !== trackedTaskOnTaskList.id))
+            localStorage.setItem("trackedTask", "");
+        }
 
-      const reminderEnabled = (localStorage.getItem("reminderEnabled") && localStorage.getItem("reminderEnabled") == "true") ? true : false;
-      const reminderTime = (localStorage.getItem("reminderTimeInMinutes")) ? parseInt(localStorage.getItem("reminderTimeInMinutes")) : 30;
-      if(reminderEnabled && this._reminder.isSameOrBefore(moment().subtract(reminderTime, 'm'))) {
-        this._reminder = moment();
-        if(this._is_working_on) {
+        if(this._is_working_on !== false && workingTask === undefined) {
+          this._reminder = moment();
           chrome.notifications.create(
-            'runrunit_task_notification', {
+              'runrunit_task_notification', {
               "type": 'basic', 
-              "iconUrl": 'images/icon_128_reminder.png', 
-              "title": "Reminder!!!", 
-              "message": `You are still working on "${this._is_working_on.title}".`
-            },
-            () => {}
+              "iconUrl": 'images/icon_128.png', 
+              "title": "Pause!!!", 
+              "message": `You have stopped working on "${this._is_working_on.title}".`
+              },
+              () => {}
           );
+        }
+        else if(workingTask !== undefined && (this._is_working_on === false || this._is_working_on.id !== workingTask.id)) {
+          this._reminder = moment();
+          chrome.notifications.create(
+              'runrunit_task_notification', {
+              "type": 'basic', 
+              "iconUrl": 'images/icon_128_active.png', 
+              "title": "Work!!!", 
+              "message": `You are now working on "${workingTask.title}".`
+              },
+              () => {}
+          );
+        }
+
+        if(workingTask) {
+          this._is_working_on = workingTask;
+          chrome.browserAction.setIcon({path:"images/icon_128_active.png"});
         }
         else {
-          chrome.notifications.create(
-            'runrunit_task_notification', {
-              "type": 'basic', 
-              "iconUrl": 'images/icon_128_reminder.png', 
-              "title": "Reminder!!!", 
-              "message": `You have no tasks currently in progress.`
-            },
-            () => {}
-          );
+          this._is_working_on = false;
+          chrome.browserAction.setIcon({path:"images/icon_128.png"});
         }
-      }
 
-      localStorage.setItem("is_working_on", (this._is_working_on !== false) ? JSON.stringify(this._is_working_on) : false);
-      localStorage.setItem("reminder", this._reminder.format());
+        const reminderEnabled = (localStorage.getItem("reminderEnabled") && localStorage.getItem("reminderEnabled") == "true") ? true : false;
+        const reminderTime = (localStorage.getItem("reminderTimeInMinutes")) ? parseInt(localStorage.getItem("reminderTimeInMinutes")) : 30;
+        if(reminderEnabled && this._reminder.isSameOrBefore(moment().subtract(reminderTime, 'm'))) {
+          this._reminder = moment();
+          if(this._is_working_on) {
+            chrome.notifications.create(
+              'runrunit_task_notification', {
+                "type": 'basic', 
+                "iconUrl": 'images/icon_128_reminder.png', 
+                "title": "Reminder!!!", 
+                "message": `You are still working on "${this._is_working_on.title}".`
+              },
+              () => {}
+            );
+          }
+          else {
+            chrome.notifications.create(
+              'runrunit_task_notification', {
+                "type": 'basic', 
+                "iconUrl": 'images/icon_128_reminder.png', 
+                "title": "Reminder!!!", 
+                "message": `You have no tasks currently in progress.`
+              },
+              () => {}
+            );
+          }
+        }
 
-      chrome.runtime.sendMessage({
-        subject: "taskUpdated",
-        body: response.data
+        localStorage.setItem("is_working_on", (this._is_working_on !== false) ? JSON.stringify(this._is_working_on) : false);
+        localStorage.setItem("reminder", this._reminder.format());
+
+        chrome.runtime.sendMessage({
+          subject: "taskUpdated",
+          body: response.data
+        });
+      })
+      .catch(e => {
+        console.error(e);
+        chrome.runtime.sendMessage({
+          subject: "taskUpdated",
+          body: []
+        });
       });
-    });
   }
 
   pauseTask(id) {

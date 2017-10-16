@@ -61,15 +61,15 @@ class OptionsPage extends React.Component {
     }
 
     request.get(`https://secure.runrun.it/api/v1.0/users/me`)
-    .then(response => {
-      localStorage.setItem("user", JSON.stringify(response.data));
-      this.setState({
-        msg: {
-          type: 'success',
-          text: "Success!"
-        }
+      .then(response => {
+        localStorage.setItem("user", JSON.stringify(response.data));
+        this.setState({
+          msg: {
+            type: 'success',
+            text: "Success!"
+          }
+        });
       });
-    });
   }
 
   handleViewToggle() {
