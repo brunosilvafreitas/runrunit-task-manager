@@ -5,7 +5,10 @@ class OptionsPage extends React.Component {
   constructor(props) {
     super(props);
 
+    const browserLanguage = (navigator.language || navigator.userLanguage || 'en').split('-')[0];
+
     this.state = {
+      language: localStorage.getItem("language") || browserLanguage,
       appkey: localStorage.getItem("appkey") || "",
       usertoken: localStorage.getItem("usertoken") || "",
       reminderEnabled: (localStorage.getItem("reminderEnabled") && localStorage.getItem("reminderEnabled") === "true") ? true : false,
@@ -49,6 +52,7 @@ class OptionsPage extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
 
+    localStorage.setItem("language", this.state.language);
     localStorage.setItem("appkey", this.state.appkey);
     localStorage.setItem("usertoken", this.state.usertoken);
     localStorage.setItem("reminderEnabled", this.state.reminderEnabled);
@@ -90,6 +94,13 @@ class OptionsPage extends React.Component {
 
     const form = (
       <form onSubmit={this.handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="language">Language</label>
+          <select className="form-control" name="language" value={this.state.language} onChange={this.handleInputChange}>
+            <option value="en">English</option>
+            <option value="pt">Portuguese</option>
+          </select>
+        </div>
         <div className="form-group">
           <label htmlFor="appkey">App Key</label>
           <input type="text" className="form-control" name="appkey" value={this.state.appkey} required onChange={this.handleInputChange} />
