@@ -1,3 +1,39 @@
 {
-  "openedTasks.title": "Tarefas"
+  "app.welcome": "Bem-vindo ao Runrun.it Task Manager!<br /> Clique <a href='options.html' target='_blank'>aqui</a> e configure sua conta Runrun.it.",
+
+  "openedTasks.menuItem": "Abertas",
+  "openedTasks.title": "Tarefas",
+  "openedTasks.empty": "Você não tem tarefas no momento.",
+  "openedTasks.monitor": "Quando esta opção estiver habilitada a extensão irá gerenciar as tarefas para você, pausando e reiniciando caso você bloqueio/desbloqueie o seu computador.",  
+
+  "closedTasks.empty": "Você não tem nenhuma tarefa concluída no momento.",
+  "closedTasks.description": "* últimas dez tarefas concluídas.",
+
+  "tasks.controls.pause": "pausar",
+  "tasks.controls.work": "trabalhar",
+  "tasks.controls.close": "entregar",
+  "tasks.controls.reopen": "reabrir",
+  "tasks.info.responsible": "Responsável",
+  "tasks.info.project": "Cliente > Projeto",
+  "tasks.info.type": "Tipo",
+  "tasks.info.tags": "Tags",
+  "tasks.info.started": "Início",
+  "tasks.info.completed": "Entrega",
+
+  "settings.label.language": "Idioma",
+  "settings.label.appkey": "Chave da aplicação",
+  "settings.label.usertoken": "Token do usuário",
+  "settings.label.reminderTimeInMinutesEnabled": "Intervalo do lembrete (Habilitado)",
+  "settings.label.reminderTimeInMinutesDisable": "Intervalo do lembrete (Desabilitado)",
+  "settings.reminder.description": "* Você vai ser lembrado a cada X minutos quando você ainda estiver trabalhando na mesma tarefa ou não tiver começado uma. Caso você pause ou comece uma tarefa o cronômetro do lembrete será reiciniado.",
+  "settings.label.autoPauseResume": "Auto Pausar/Reiniciar",
+  "settings.autoPauseResume.description": "* Habilitando esta opção, um icone será exibido ao lado direito da tarefa em que você estiver trabalhando, permitindo automaticamente pausar/retomar a tarefa, quando você bloquear/desbloquear seu computador. Porém, nós percebemos que essa funcionalidade não funciona como esperado em alguns computadores. Se você realmente deseja usar essa funcionalidade, nós recomendamos fortemente que você teste isso bloqueando e desbloqueando seu computador por alguns minutos e conferindo se os dados lançados nos detalhes da tarefa estão corretos.",
+  "settings.btn.submit": "Salvar",
+  "settings.btn.tutorial": "Tutorial",
+
+  "settings.tutorial.title": "Configuração do Runrun.it",
+  "settings.tutorial.step1": "1. Vá até o seu perfil no Runrun.it",
+  "settings.tutorial.step2": "2. Então, caso a chave da aplicação não seja exibida, clique em \"Gerar\".",
+  "settings.tutorial.step2.help": "* É necessário ter permissão para isso. Se não aparecer, contate alguem com o papel de \"Administrador\" do sistema.",
+  "settings.tutorial.step3": "3. Sua \"chave da aplicação\" e \"Token do usuário\" serão exibidos (ou apenas o \"Token do usuário\" caso você não for um \"Administrador\")."
 }

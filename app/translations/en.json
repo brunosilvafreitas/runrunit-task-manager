@@ -1,3 +1,39 @@
 {
-  "openedTasks.title": "Tasks"
+  "app.welcome": "Welcome to Runrun.it Task Manager!<br /> Click <a href='options.html' target='_blank'>here</a> to set up your Runrun.it account.",
+
+  "openedTasks.menuItem": "Open",
+  "openedTasks.title": "Tasks",
+  "openedTasks.empty": "You have no task at the moment.",
+  "openedTasks.monitor": "When this option is active the extension will manage the task for you, pausing/resuming if you lock/unlock the machine.",
+
+  "closedTasks.empty": "You don't have closed tasks at the moment.",
+  "closedTasks.description": "* last ten tasks completed.",
+
+  "tasks.controls.pause": "pause",
+  "tasks.controls.work": "work",
+  "tasks.controls.close": "complete",
+  "tasks.controls.reopen": "reopen",
+  "tasks.info.responsible": "Responsible",
+  "tasks.info.project": "Client > Project",
+  "tasks.info.type": "Type",
+  "tasks.info.tags": "Tags",
+  "tasks.info.started": "Started",
+  "tasks.info.completed": "Completed",
+
+  "settings.label.language": "Language",
+  "settings.label.appkey": "App Key",
+  "settings.label.usertoken": "User Token",
+  "settings.label.reminderTimeInMinutesEnabled": "Reminder's interval (Enabled)",
+  "settings.label.reminderTimeInMinutesDisable": "Reminder's interval (Disabled)",
+  "settings.reminder.description": "* You will be reminded every X minutes whether you are either working on the same task or haven't started one. In case you either pause or start a task, the timer will reset.",
+  "settings.label.autoPauseResume": "Auto Pause/Resume",
+  "settings.autoPauseResume.description": "* By enabling this option, an icon will be displayed to the right of the task you're currently working on, allowing it be automatically paused/resumed when you lock/unlock your computer. However, we've noticed that this feature doesn't work as expected on some computers. If you really wish to use this feature, we strongly suggest you to test it by locking your computer for a few minutes and then checking on your task details to see if the recorded time is correct.",
+  "settings.btn.submit": "Save",
+  "settings.btn.tutorial": "Tutorial",
+
+  "settings.tutorial.title": "Runrun.it Settings",
+  "settings.tutorial.step1": "1. Go to your profile on Runrun.it",
+  "settings.tutorial.step2": "2. Then, if there is no \"App key\", click on \"Generate\".",
+  "settings.tutorial.step2.help": "* Permission needed. If it does not appear, contact anyone with \"Administrator\" role.",
+  "settings.tutorial.step3": "3. Your \"App Key\" and \"User Token\" will be displayed (or only the \"User Token\" if you aren't an \"Administrator\")."
 }
