@@ -31,10 +31,20 @@
   "settings.autoPauseResume.description": "* Habilitando esta opção, um icone será exibido ao lado direito da tarefa em que você estiver trabalhando, permitindo automaticamente pausar/retomar a tarefa, quando você bloquear/desbloquear seu computador. Porém, nós percebemos que essa funcionalidade não funciona como esperado em alguns computadores. Se você realmente deseja usar essa funcionalidade, nós recomendamos fortemente que você teste isso bloqueando e desbloqueando seu computador por alguns minutos e conferindo se os dados lançados nos detalhes da tarefa estão corretos.",
   "settings.btn.submit": "Salvar",
   "settings.btn.tutorial": "Tutorial",
+  "settings.msg.success": "Sucesso!!!",
 
   "settings.tutorial.title": "Configuração do Runrun.it",
   "settings.tutorial.step1": "1. Vá até o seu perfil no Runrun.it",
   "settings.tutorial.step2": "2. Então, caso a chave da aplicação não seja exibida, clique em \"Gerar\".",
   "settings.tutorial.step2.help": "* É necessário ter permissão para isso. Se não aparecer, contate alguem com o papel de \"Administrador\" do sistema.",
-  "settings.tutorial.step3": "3. Sua \"chave da aplicação\" e \"Token do usuário\" serão exibidos (ou apenas o \"Token do usuário\" caso você não for um \"Administrador\")."
+  "settings.tutorial.step3": "3. Sua \"chave da aplicação\" e \"Token do usuário\" serão exibidos (ou apenas o \"Token do usuário\" caso você não for um \"Administrador\").",
+
+  "notification.pause.title": "Pausa!!!",
+  "notification.pause.body": "Você parou de trabalhar em ",
+  "notification.start.title": "Trabalhe!!!",
+  "notification.start.body": "Agora você está trabalhando em ",
+  "notification.still.title": "Lembrete!!!",
+  "notification.still.body": "Você ainda está trabalhando em ",
+  "notification.none.title": "Lembrete!!!",
+  "notification.none.body": "Você não está atuando em nenhuma tarefa no momento."
 }

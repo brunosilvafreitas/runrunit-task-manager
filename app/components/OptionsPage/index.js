@@ -15,7 +15,7 @@ class OptionsPage extends React.Component {
       reminderEnabled: (localStorage.getItem("reminderEnabled") && localStorage.getItem("reminderEnabled") === "true") ? true : false,
       reminderTimeInMinutes: localStorage.getItem("reminderTimeInMinutes") || 30,
       view: "options",
-      msg: "",
+      msg: false,
       autoPauseResume: (localStorage.getItem("autoPauseResume") && localStorage.getItem("autoPauseResume") === "true") ? true : false
     };
 
@@ -27,7 +27,7 @@ class OptionsPage extends React.Component {
 
   handleMsgHide() {
     this.setState({
-      msg: ""
+      msg: false
     });
   }
 
@@ -69,10 +69,7 @@ class OptionsPage extends React.Component {
       .then(response => {
         localStorage.setItem("user", JSON.stringify(response.data));
         this.setState({
-          msg: {
-            type: 'success',
-            text: "Success!"
-          }
+          msg: true
         });
       });
   }
@@ -85,12 +82,14 @@ class OptionsPage extends React.Component {
 
   render() {
     const msg = (this.state.msg) ? (
-      <div className={`alert alert-${this.state.msg.type} alert-dismissible fade show`} role="alert">
-        <button type="button" className="close" onClick={this.handleMsgHide}>
-          <span aria-hidden="true">&times;</span>
-        </button>
-        {this.state.msg.text}
-      </div>
+      <FormattedMessage id="settings.msg.success">
+        {(txt) => (<div className="alert alert-success alert-dismissible fade show" role="alert">
+          <button type="button" className="close" onClick={this.handleMsgHide}>
+            <span aria-hidden="true">&times;</span>
+          </button>
+          {txt}
+        </div>)}
+      </FormattedMessage>
     ) : "";
 
     const form = (

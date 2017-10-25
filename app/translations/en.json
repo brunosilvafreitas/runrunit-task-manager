@@ -30,10 +30,20 @@
   "settings.autoPauseResume.description": "* By enabling this option, an icon will be displayed to the right of the task you're currently working on, allowing it be automatically paused/resumed when you lock/unlock your computer. However, we've noticed that this feature doesn't work as expected on some computers. If you really wish to use this feature, we strongly suggest you to test it by locking your computer for a few minutes and then checking on your task details to see if the recorded time is correct.",
   "settings.btn.submit": "Save",
   "settings.btn.tutorial": "Tutorial",
+  "settings.msg.success": "Success!!!",
 
   "settings.tutorial.title": "Runrun.it Settings",
   "settings.tutorial.step1": "1. Go to your profile on Runrun.it",
   "settings.tutorial.step2": "2. Then, if there is no \"App key\", click on \"Generate\".",
   "settings.tutorial.step2.help": "* Permission needed. If it does not appear, contact anyone with \"Administrator\" role.",
-  "settings.tutorial.step3": "3. Your \"App Key\" and \"User Token\" will be displayed (or only the \"User Token\" if you aren't an \"Administrator\")."
+  "settings.tutorial.step3": "3. Your \"App Key\" and \"User Token\" will be displayed (or only the \"User Token\" if you aren't an \"Administrator\").",
+
+  "notification.pause.title": "Pause!!!",
+  "notification.pause.body": "You have stopped working on ",
+  "notification.start.title": "Work!!!",
+  "notification.start.body": "You are now working on ",
+  "notification.still.title": "Reminder!!!",
+  "notification.still.body": "You are still working on ",
+  "notification.none.title": "Reminder!!!",
+  "notification.none.body": "You have no tasks currently in progress."
 }
