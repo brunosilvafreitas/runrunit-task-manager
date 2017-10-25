@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { FormattedMessage } from 'react-intl';
 
 class TaskDetail extends React.Component {
   constructor(props) {
@@ -11,27 +12,39 @@ class TaskDetail extends React.Component {
     return (
       <ul className="list-group mt-1 mb-1">
         <li className="list-group-item list-group-item-light">
-          <strong>Responsible:</strong> {this.props.task.responsible_name}
+          <FormattedMessage id="tasks.info.responsible">
+            {(txt) => (<strong>{txt}:</strong>)}
+          </FormattedMessage> {this.props.task.responsible_name}
         </li>
         <li className="list-group-item list-group-item-light">
-          <strong>Type:</strong> {this.props.task.type_name}
+          <FormattedMessage id="tasks.info.type">
+            {(txt) => (<strong>{txt}:</strong>)}
+          </FormattedMessage> {this.props.task.type_name}
         </li>
         <li className="list-group-item list-group-item-light">
-          <strong>Client > Project:</strong> {this.props.task.client_name} > {this.props.task.project_name}
+          <FormattedMessage id="tasks.info.project">
+            {(txt) => (<strong>{txt}:</strong>)}
+          </FormattedMessage> {this.props.task.client_name} > {this.props.task.project_name}
         </li>
         <li className="list-group-item list-group-item-light">
-          <strong>Tags:</strong> {this.props.task.task_tags.map((tag, index) => (
+          <FormattedMessage id="tasks.info.tags">
+            {(txt) => (<strong>{txt}:</strong>)}
+          </FormattedMessage> {this.props.task.task_tags.map((tag, index) => (
             <span key={index} className="badge badge-secondary mr-1">{tag}</span>
           ))}
         </li>
         <li className="list-group-item list-group-item-light">
           <div className="row">
             <div className="col">
-              <strong>Started:</strong> {moment(this.props.task.start_date).format("MMM DD, hh:mm A")}
+              <FormattedMessage id="tasks.info.started">
+                {(txt) => (<strong>{txt}:</strong>)}
+              </FormattedMessage> {moment(this.props.task.start_date).format("MMM DD, hh:mm A")}
             </div>
             {(this.props.task.is_closed) ? (
               <div className="col">
-                <strong>Completed:</strong> {moment(this.props.task.close_date).format("MMM DD, hh:mm A")}
+                <FormattedMessage id="tasks.info.completed">
+                  {(txt) => (<strong>{txt}:</strong>)}
+                </FormattedMessage> {moment(this.props.task.close_date).format("MMM DD, hh:mm A")}
               </div>
             ) : ''}
           </div>

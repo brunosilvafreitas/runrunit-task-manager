@@ -5,7 +5,8 @@
   "openedTasks.title": "Tarefas",
   "openedTasks.empty": "Você não tem tarefas no momento.",
   "openedTasks.monitor": "Quando esta opção estiver habilitada a extensão irá gerenciar as tarefas para você, pausando e reiniciando caso você bloqueio/desbloqueie o seu computador.",  
-
+  
+  "closedTasks.menuItem": "Entregues",
   "closedTasks.empty": "Você não tem nenhuma tarefa concluída no momento.",
   "closedTasks.description": "* últimas dez tarefas concluídas.",
 

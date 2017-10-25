@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 import 'moment-duration-format';
+import { FormattedMessage } from 'react-intl';
 
 import style from './style.css';
 import request from '../AuthInterceptor';
@@ -71,10 +72,9 @@ class ClosedTasksPage extends React.Component {
     const tasks = (() => {
       if(!localStorage.getItem("appkey"))
         return (
-          <li className="text-center">
-            Welcome to Runrun.it Task Manager!<br />
-            Click <a href="options.html" target="_blank">here</a> to set up your Runrun.it account.
-          </li>
+          <FormattedMessage id="app.welcome">
+            {(txt) => (<li className="text-center">{txt}</li>)}
+          </FormattedMessage>
         );
       else if(this.state.tasks === undefined)
         return (
@@ -82,9 +82,9 @@ class ClosedTasksPage extends React.Component {
         );
       else if(this.state.tasks instanceof Array && this.state.tasks.length === 0)
         return (
-          <li className="text-center">
-            You don't have closed tasks at the moment.
-          </li>
+          <FormattedMessage id="closedTasks.empty">
+            {(txt) => (<li className="text-center">{txt}</li>)}
+          </FormattedMessage>
         );
       else
         return this.state.tasks.map((task, index) => (
@@ -110,7 +110,9 @@ class ClosedTasksPage extends React.Component {
                   (task.current_estimate_seconds) ? 
                   '/ ' + timer(task.current_estimate_seconds) : ""
                 }
-              </button> <button type="button" className="btn btn-sm btn-primary" onClick={this.handleReopen(task.id)}>REOPEN</button>
+              </button> <FormattedMessage id="tasks.controls.reopen">
+                {(txt) => (<button type="button" className="btn btn-sm btn-primary" onClick={this.handleReopen(task.id)}>{txt}</button>)}
+              </FormattedMessage>
             </div>
           </li>
         ));
@@ -119,12 +121,12 @@ class ClosedTasksPage extends React.Component {
     return (
       <div>
         <div>
-          <PopupHeader title="Tasks" />
+          <PopupHeader title="openedTasks.title" />
           <PopupNav />
         </div>
-        <div className="text-center text-secondary text-size-sm">
-          * last ten tasks completed.
-        </div>
+        <FormattedMessage id="closedTasks.description">
+          {(txt) => (<div className="text-center text-secondary text-size-sm">{txt}</div>)}
+        </FormattedMessage>
         <ul className={`list-group ${style.ClosedTasksPage}`}>
           {tasks}
         </ul>

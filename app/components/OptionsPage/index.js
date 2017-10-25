@@ -1,5 +1,6 @@
 import React from 'react';
 import request from '../AuthInterceptor';
+import { FormattedMessage } from 'react-intl';
 
 class OptionsPage extends React.Component {
   constructor(props) {
@@ -95,58 +96,83 @@ class OptionsPage extends React.Component {
     const form = (
       <form onSubmit={this.handleSubmit}>
         <div className="form-group">
-          <label htmlFor="language">Language</label>
+          <FormattedMessage id="settings.label.language">
+            {(txt) => (<label htmlFor="language">{txt}</label>)}
+          </FormattedMessage>
           <select className="form-control" name="language" value={this.state.language} onChange={this.handleInputChange}>
             <option value="en">English</option>
             <option value="pt">Portuguese</option>
           </select>
         </div>
         <div className="form-group">
-          <label htmlFor="appkey">App Key</label>
+          <FormattedMessage id="settings.label.appkey">
+            {(txt) => (<label htmlFor="appkey">{txt}</label>)}
+          </FormattedMessage>
           <input type="text" className="form-control" name="appkey" value={this.state.appkey} required onChange={this.handleInputChange} />
         </div>
         <div className="form-group">
-          <label htmlFor="usertoken">User Token</label>
+          <FormattedMessage id="settings.label.usertoken">
+            {(txt) => (<label htmlFor="usertoken">{txt}</label>)}
+          </FormattedMessage>
           <input type="text" className="form-control" name="usertoken" value={this.state.usertoken} required onChange={this.handleInputChange} />
         </div>
         <div className="form-group">
-          <label htmlFor="reminderTimeInMinutes">Reminder's interval ({
-              (this.state.reminderEnabled) ? "Enabled" : "Disabled"
-            })</label>
+          {(this.state.reminderEnabled) ?
+          (<FormattedMessage id="settings.label.reminderTimeInMinutesEnabled">
+            {(txt) => (<label htmlFor="reminderTimeInMinutes">{txt}</label>)}
+          </FormattedMessage>) :
+          (<FormattedMessage id="settings.label.reminderTimeInMinutesDisable">
+            {(txt) => (<label htmlFor="reminderTimeInMinutes">{txt}</label>)}
+          </FormattedMessage>)}
           <div className="input-group">
             <span className="input-group-addon">
               <input type="checkbox" name="reminderEnabled" checked={this.state.reminderEnabled} onChange={this.handleInputChange} />
             </span>
             <input type="number" min="1" className="form-control" name="reminderTimeInMinutes" value={this.state.reminderTimeInMinutes} disabled={!this.state.reminderEnabled} required onChange={this.handleInputChange} />
           </div>
-          <small className="form-text text-muted">
-            * You will be reminded every X minutes whether you are either working on the same task or haven't started one. In case you either pause or start a task, the timer will reset.
-          </small>
+          <FormattedMessage id="settings.reminder.description">
+            {(txt) => (<small className="form-text text-muted">{txt}</small>)}
+          </FormattedMessage>
         </div>
 
         <div className="form-check">
-          <label className="form-check-label" htmlFor="autoPauseResume">
-            <input type="checkbox" className="form-check-input" name="autoPauseResume" checked={this.state.autoPauseResume} onChange={this.handleInputChange} /> Auto Pause/Resume
-          </label>
-          <small className="form-text text-muted">
-            * By enabling this option, an icon will be displayed to the right of the task you're currently working on, allowing it be automatically paused/resumed when you lock/unlock your computer. However, we've noticed that this feature doesn't work as expected on some computers. If you really wish to use this feature, we strongly suggest you to test it by locking your computer for a few minutes and then checking on your task details to see if the recorded time is correct.
-          </small>
+          <FormattedMessage id="settings.label.autoPauseResume">
+            {(txt) => (<label className="form-check-label" htmlFor="autoPauseResume">
+              <input type="checkbox" className="form-check-input" name="autoPauseResume" checked={this.state.autoPauseResume} onChange={this.handleInputChange} /> {txt}
+            </label>)}
+          </FormattedMessage>
+
+          <FormattedMessage id="settings.autoPauseResume.description">
+            {(txt) => (<small className="form-text text-muted">{txt}</small>)}
+          </FormattedMessage>
         </div>
 
-        <button type="submit" className="btn btn-primary">Save</button>
-        <button type="button" className="btn btn-info float-right" onClick={this.handleViewToggle}>Tutorial</button>
+        <FormattedMessage id="settings.btn.submit">
+          {(txt) => (<button type="submit" className="btn btn-primary">{txt}</button>)}
+        </FormattedMessage>
+        <FormattedMessage id="settings.btn.tutorial">
+          {(txt) => (<button type="button" className="btn btn-info float-right" onClick={this.handleViewToggle}>{txt}</button>)}
+        </FormattedMessage>
       </form>
     );
 
     const tutorial = (
       <div>
         <div>
-          <strong>1. Go to your profile on Runrun.it</strong><br />
+          <FormattedMessage id="settings.tutorial.step1">
+            {(txt) => (<strong>{txt}</strong>)}
+          </FormattedMessage><br />
           <img src="/images/tutorial1.png" /><br /><br />
-          <strong>2. Then, if there is no "App key", click on "Generate".</strong><br />
+          <FormattedMessage id="settings.tutorial.step2">
+            {(txt) => (<strong>{txt}</strong>)}
+          </FormattedMessage><br /><br />
           <img src="/images/tutorial2.png" /><br />
-          <span>* Permission needed. If it does not appear, contact anyone with "Administrator" role.</span><br /><br />
-          <strong>3. Your "App Key" and "User Token" will be displayed (or only the "User Token" if you aren't an "Administrator").</strong><br />
+          <FormattedMessage id="settings.tutorial.step2.help">
+            {(txt) => (<span>{txt}</span>)}
+          </FormattedMessage><br /><br />
+          <FormattedMessage id="settings.tutorial.step3">
+            {(txt) => (<strong>{txt}</strong>)}
+          </FormattedMessage><br /><br />
           <img src="/images/tutorial3.png" /><br /><br />
         </div>
         <button type="button" className="btn btn-info" onClick={this.handleViewToggle}>&lt;</button>
@@ -164,7 +190,9 @@ class OptionsPage extends React.Component {
                   <div className="text-center">
                     <img src="/images/icon_128.png" />
                   </div>
-                  <h1 className="text-center">Runrun.it Settings</h1>
+                  <FormattedMessage id="settings.tutorial.title">
+                    {(txt) => (<h1 className="text-center">{txt}</h1>)}
+                  </FormattedMessage>
                   {(this.state.view === "options") ? form : tutorial}
                 </div>
               </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 import 'moment-duration-format';
+import { FormattedMessage } from 'react-intl';
 
 import style from './style.css';
 import request from '../AuthInterceptor';
@@ -106,10 +107,9 @@ class OpenedTasksPage extends React.Component {
     const tasks = (() => {
       if(!localStorage.getItem("appkey"))
         return (
-          <li className="text-center">
-            Welcome to Runrun.it Task Manager!<br />
-            Click <a href="options.html" target="_blank">here</a> to set up your Runrun.it account.
-          </li>
+          <FormattedMessage id="app.welcome">
+            {(txt) => (<li className="text-center">{txt}</li>)}
+          </FormattedMessage>
         );
       else if(this.state.tasks === undefined)
         return (
@@ -117,9 +117,9 @@ class OpenedTasksPage extends React.Component {
         );
       else if(this.state.tasks instanceof Array && this.state.tasks.length === 0)
         return (
-          <li className="text-center">
-            You have no task at the moment.
-          </li>
+          <FormattedMessage id="openedTasks.empty">
+            {(txt) => (<li className="text-center">{txt}</li>)}
+          </FormattedMessage>
         );
       else
         return this.state.tasks.map((task, index) => (
@@ -147,18 +147,26 @@ class OpenedTasksPage extends React.Component {
                 }
               </button> {
                 (task.is_working_on) ?
-                (<button type="button" className="btn btn-sm btn-primary" onClick={this.handlePause(task.id)}>
-                <span className="oi" data-glyph="media-pause"></span> PAUSE
-                </button>) :
-                (<button type="button" className="btn btn-sm btn-primary" onClick={this.handlePlay(task.id)}>
-                <span className="oi" data-glyph="media-play"></span> WORK
-                </button>)
-              } <button type="button" className="btn btn-sm btn-light" onClick={this.handleClose(task.id)}>COMPLETE</button>
+                (<FormattedMessage id="tasks.controls.pause">
+                  {(txt) => (<button type="button" className="btn btn-sm btn-primary" onClick={this.handlePause(task.id)}>
+                    <span className="oi" data-glyph="media-pause"></span> {txt}
+                  </button>)}
+                </FormattedMessage>) :
+                (<FormattedMessage id="tasks.controls.work">
+                  {(txt) => (<button type="button" className="btn btn-sm btn-primary" onClick={this.handlePlay(task.id)}>
+                    <span className="oi" data-glyph="media-play"></span> {txt}
+                  </button>)}
+                </FormattedMessage>)
+              } <FormattedMessage id="tasks.controls.close">
+                {(txt) => (<button type="button" className="btn btn-sm btn-light" onClick={this.handleClose(task.id)}>{txt}</button>)}
+              </FormattedMessage>
     
               {(this.state.autoPauseResume && task.is_working_on)?(
-                <button title="When this option is active the extension will manage the task for you, pausing/resuming if you lock/unlock the machine." type="button" className={`btn btn-sm btn-${(this.state.trackedTask == task.id)?'warning':'light'} float-right`} onClick={this.handleTaskTracking(task.id)}>
-                  <span className="oi" data-glyph="monitor"></span>
-                </button>
+                <FormattedMessage id="openedTasks.monitor">
+                  {(txt) => (<button title={txt} type="button" className={`btn btn-sm btn-${(this.state.trackedTask == task.id)?'warning':'light'} float-right`} onClick={this.handleTaskTracking(task.id)}>
+                    <span className="oi" data-glyph="monitor"></span>
+                  </button>)}
+                </FormattedMessage>
               ):""}
     
             </div>
