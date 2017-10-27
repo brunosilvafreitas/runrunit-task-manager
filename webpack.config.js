@@ -1,6 +1,30 @@
 const webpack = require('webpack');
 
-module.exports = {
+const plugins = [
+  new webpack.LoaderOptionsPlugin({
+    minimize: true,
+    debug: false
+  }),
+  new webpack.DefinePlugin({
+    'process.env': {
+      'NODE_ENV': JSON.stringify('production')
+    }
+  }),
+  new webpack.optimize.UglifyJsPlugin({
+    beautify: false,
+    mangle: {
+      screw_ie8: true,
+      keep_fnames: true
+    },
+    compress: {
+      warnings: false,
+      screw_ie8: true
+    },
+    comments: false
+  })
+];
+
+module.exports = [{
   entry: ['babel-polyfill', "./app/index.js"],
   output: {
     filename: "dist/bundle.js"
@@ -36,27 +60,27 @@ module.exports = {
   watchOptions: {
     poll: true
   },
-  plugins: [
-    new webpack.LoaderOptionsPlugin({
-      minimize: true,
-      debug: false
-    }),
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify('production')
+  plugins
+}, {
+  entry: ['babel-polyfill', "./app/background.js"],
+  output: {
+    filename: "dist/eventPage.js"
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+        options: {
+          presets: ['env'],
+          plugins: ['add-module-exports']
+        }
       }
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      beautify: false,
-      mangle: {
-        screw_ie8: true,
-        keep_fnames: true
-      },
-      compress: {
-        warnings: false,
-        screw_ie8: true
-      },
-      comments: false
-    })
-  ]
-};
+    ]
+  },
+  watchOptions: {
+    poll: true
+  },
+  plugins
+}];

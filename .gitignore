@@ -58,5 +58,5 @@ typings/
 .env
 
 dist/bundle.*
-
+dist/eventPage.*
 dist.zip

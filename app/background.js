@@ -1,3 +1,6 @@
+import axios from 'axios';
+import moment from 'moment';
+
 JSON.isAJSONString = (object) => {
   try {
     JSON.parse(object);
