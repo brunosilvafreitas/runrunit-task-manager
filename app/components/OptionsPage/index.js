@@ -53,6 +53,8 @@ class OptionsPage extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
 
+    const currentLanguage = localStorage.getItem("language");
+
     localStorage.setItem("language", this.state.language);
     localStorage.setItem("appkey", this.state.appkey);
     localStorage.setItem("usertoken", this.state.usertoken);
@@ -70,6 +72,9 @@ class OptionsPage extends React.Component {
         localStorage.setItem("user", JSON.stringify(response.data));
         this.setState({
           msg: true
+        }, () => {
+          if(currentLanguage !== localStorage.getItem("language"))
+            location.reload();
         });
       });
   }

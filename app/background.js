@@ -1,5 +1,6 @@
 import axios from 'axios';
 import moment from 'moment';
+import translations from './translations';
 
 JSON.isAJSONString = (object) => {
   try {
@@ -38,7 +39,7 @@ class RunrunTasks {
 
   getHttpClient() {
     const client = axios.create();
-    client.interceptors.request.use((config) => {
+    client.interceptors.request.use(config => {
       config.headers['App-Key'] = localStorage.getItem("appkey");
       config.headers['User-Token'] = localStorage.getItem("usertoken");
       
@@ -79,6 +80,7 @@ class RunrunTasks {
       })
       .then(response => {
         this._tasks = response.data;
+        const notificationMessages = translations().messages;
 
         const workingTask = this._tasks.find((task) => {
           return task.is_working_on;
@@ -96,25 +98,25 @@ class RunrunTasks {
         if(this._is_working_on !== false && workingTask === undefined) {
           this._reminder = moment();
           chrome.notifications.create(
-              'runrunit_task_notification', {
+            'runrunit_task_notification', {
               "type": 'basic', 
               "iconUrl": 'images/icon_128.png', 
-              "title": "Pause!!!", 
-              "message": `You have stopped working on "${this._is_working_on.title}".`
-              },
-              () => {}
+              "title": notificationMessages["notification.pause.title"], 
+              "message": `${notificationMessages["notification.pause.body"]} "${this._is_working_on.title}".`
+            },
+            () => {}
           );
         }
         else if(workingTask !== undefined && (this._is_working_on === false || this._is_working_on.id !== workingTask.id)) {
           this._reminder = moment();
           chrome.notifications.create(
-              'runrunit_task_notification', {
+            'runrunit_task_notification', {
               "type": 'basic', 
-              "iconUrl": 'images/icon_128_active.png', 
-              "title": "Work!!!", 
-              "message": `You are now working on "${workingTask.title}".`
-              },
-              () => {}
+              "iconUrl": 'images/icon_128_active.png',
+              "title": notificationMessages["notification.start.title"], 
+              "message": `${notificationMessages["notification.start.body"]} "${workingTask.title}".`
+            },
+            () => {}
           );
         }
 
@@ -136,8 +138,8 @@ class RunrunTasks {
               'runrunit_task_notification', {
                 "type": 'basic', 
                 "iconUrl": 'images/icon_128_reminder.png', 
-                "title": "Reminder!!!", 
-                "message": `You are still working on "${this._is_working_on.title}".`
+                "title": notificationMessages["notification.still.title"], 
+                "message": `${notificationMessages["notification.still.body"]} "${this._is_working_on.title}".`
               },
               () => {}
             );
@@ -147,8 +149,8 @@ class RunrunTasks {
               'runrunit_task_notification', {
                 "type": 'basic', 
                 "iconUrl": 'images/icon_128_reminder.png', 
-                "title": "Reminder!!!", 
-                "message": `You have no tasks currently in progress.`
+                "title": notificationMessages["notification.none.title"], 
+                "message": `${notificationMessages["notification.none.body"]}.`
               },
               () => {}
             );
