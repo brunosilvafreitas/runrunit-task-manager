@@ -60,3 +60,6 @@ typings/
 dist/bundle.*
 
 dist.zip
+
+.DS_Store
+app/.DS_Store
