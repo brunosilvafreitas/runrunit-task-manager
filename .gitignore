@@ -59,4 +59,8 @@ typings/
 
 dist/bundle.*
 dist/eventPage.*
+
 dist.zip
+
+.DS_Store
+app/.DS_Store
