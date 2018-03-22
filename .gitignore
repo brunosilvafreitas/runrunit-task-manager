@@ -64,3 +64,5 @@ dist.zip
 
 .DS_Store
 app/.DS_Store
+
+package-lock*
